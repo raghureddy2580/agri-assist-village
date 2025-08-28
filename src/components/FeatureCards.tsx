@@ -1,11 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  Users, 
-  Leaf, 
-  Cloud, 
-  ShoppingCart, 
-  BookOpen, 
+import {
+  Users,
+  Leaf,
+  Cloud,
+  ShoppingCart,
+  BookOpen,
   Bell,
   ArrowRight,
   Briefcase,
@@ -17,8 +17,8 @@ const FeatureCards = () => {
   const features = [
     {
       icon: Users,
-      title: "Labor Hiring System",
-      description: "Find and hire skilled farm workers quickly. Post job requirements, review profiles, and connect with available laborers in your area.",
+      title: "Labour to farmers",
+      description: "Find and hire skilled farm workers quickly. Post job requirements, review profiles, and connect with available labours in your area.",
       color: "text-primary",
       bgColor: "bg-primary/10",
       actionText: "Find Workers"
@@ -29,7 +29,8 @@ const FeatureCards = () => {
       description: "Get AI-powered insights for crop cultivation, seasonal planning, and early pest detection with treatment recommendations.",
       color: "text-success",
       bgColor: "bg-success/10",
-      actionText: "Manage Crops"
+      actionText: "Manage Crops",
+      href: "https://www.amazon.in" // Add your desired link here
     },
     {
       icon: Cloud,
@@ -94,13 +95,26 @@ const FeatureCards = () => {
                 <CardDescription className="text-muted-foreground mb-6 leading-relaxed">
                   {feature.description}
                 </CardDescription>
-                <Button 
-                  variant="outline" 
-                  className="w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all duration-200"
-                >
-                  {feature.actionText}
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                {feature.href ? (
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all duration-200"
+                  >
+                    <a href={feature.href}>
+                      {feature.actionText}
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    className="w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all duration-200"
+                  >
+                    {feature.actionText}
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                )}
               </CardContent>
             </Card>
           ))}
