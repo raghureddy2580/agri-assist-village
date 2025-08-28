@@ -26,7 +26,7 @@ const HeroSection = () => {
 
           {/* Main Heading */}
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-            Smart Farming for the
+            vishwachinnapor
             <span className="text-primary block">Modern Farmer</span>
           </h1>
 
