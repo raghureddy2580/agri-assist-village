@@ -7,9 +7,9 @@ const HeroSection = () => {
     <section className="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-background to-accent/20">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src={heroImage} 
-          alt="Smart Farming Technology" 
+        <img
+          src={heroImage}
+          alt="Smart Farming Technology"
           className="w-full h-full object-cover opacity-20"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/90 to-background/70"></div>
@@ -21,7 +21,7 @@ const HeroSection = () => {
           {/* Hero Badge */}
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
             <Shield className="w-4 h-4 mr-2" />
-            Trusted by 10,000+ Farmers Worldwide
+            Trusted by 10 Farmers Worldwide
           </div>
 
           {/* Main Heading */}
@@ -32,7 +32,7 @@ const HeroSection = () => {
 
           {/* Subheading */}
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            Revolutionize your farming with AI-powered crop management, real-time weather insights, 
+            Revolutionize your farming with AI-powered crop management, real-time weather insights,
             labor hiring, and direct marketplace connections. Boost productivity and profits with digital agriculture.
           </p>
 
@@ -53,7 +53,7 @@ const HeroSection = () => {
             <div className="text-center">
               <div className="flex items-center justify-center mb-2">
                 <Users className="h-6 w-6 text-primary mr-2" />
-                <span className="text-2xl font-bold text-foreground">10K+</span>
+                <span className="text-2xl font-bold text-foreground">10 M</span>
               </div>
               <p className="text-muted-foreground font-medium">Active Farmers</p>
             </div>
