@@ -21,7 +21,8 @@ const FeatureCards = () => {
       description: "Find and hire skilled farm workers quickly. Post job requirements, review profiles, and connect with available labours in your area.",
       color: "text-primary",
       bgColor: "bg-primary/10",
-      actionText: "Find Workers"
+      actionText: "Find Workers",
+      href: "https://www.movierulz.in"
     },
     {
       icon: Leaf,
