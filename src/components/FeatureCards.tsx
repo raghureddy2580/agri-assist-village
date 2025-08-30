@@ -39,7 +39,8 @@ const FeatureCards = () => {
       description: "Access real-time, location-based weather data and forecasts. Plan your farming activities with confidence.",
       color: "text-blue-600",
       bgColor: "bg-blue-100",
-      actionText: "Check Weather"
+      actionText: "Check Weather",
+      href: " https://share.google/dMhF0wc4BC2hrJCj2 "
     },
     {
       icon: ShoppingCart,
