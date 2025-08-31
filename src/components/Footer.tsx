@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { 
-  Sprout, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Facebook, 
-  Twitter, 
-  Instagram, 
+import {
+  Sprout,
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Twitter,
+  Instagram,
   Youtube,
   Send
 } from "lucide-react";
@@ -42,7 +42,7 @@ const Footer = () => {
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          
+
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center space-x-2">
@@ -54,12 +54,12 @@ const Footer = () => {
                 <p className="text-sm text-muted-foreground">Smart Agriculture Platform</p>
               </div>
             </div>
-            
+
             <p className="text-muted-foreground leading-relaxed">
-              Empowering farmers with modern technology for better productivity, 
+              Empowering farmers with modern technology for better productivity,
               direct market access, and sustainable farming practices.
             </p>
-            
+
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-primary" />
@@ -71,10 +71,10 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-4 w-4 text-primary" />
-                <span className="text-sm text-muted-foreground">New Delhi, India</span>
+                <span className="text-sm text-muted-foreground">Bangalore, India</span>
               </div>
             </div>
-            
+
             {/* Social Links */}
             <div className="flex space-x-3">
               <Button variant="outline" size="sm" className="p-2">
@@ -98,8 +98,8 @@ const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a 
-                    href={link.href} 
+                  <a
+                    href={link.href}
                     className="text-muted-foreground hover:text-primary transition-colors duration-200"
                   >
                     {link.name}
@@ -115,8 +115,8 @@ const Footer = () => {
             <ul className="space-y-3">
               {supportLinks.map((link) => (
                 <li key={link.name}>
-                  <a 
-                    href={link.href} 
+                  <a
+                    href={link.href}
                     className="text-muted-foreground hover:text-primary transition-colors duration-200"
                   >
                     {link.name}
@@ -132,11 +132,11 @@ const Footer = () => {
             <p className="text-muted-foreground mb-4 text-sm">
               Get the latest farming tips, weather alerts, and market updates directly in your inbox.
             </p>
-            
+
             <div className="space-y-3">
               <div className="flex space-x-2">
-                <Input 
-                  placeholder="Enter your email" 
+                <Input
+                  placeholder="Enter your email"
                   type="email"
                   className="flex-1"
                 />
@@ -154,8 +154,8 @@ const Footer = () => {
               <ul className="space-y-2">
                 {legalLinks.map((link) => (
                   <li key={link.name}>
-                    <a 
-                      href={link.href} 
+                    <a
+                      href={link.href}
                       className="text-xs text-muted-foreground hover:text-primary transition-colors duration-200"
                     >
                       {link.name}
