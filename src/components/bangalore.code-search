@@ -1,0 +1,9 @@
+# Query: New delhi
+# ContextLines: 1
+
+1 result - 1 file
+
+src\components\Footer.tsx:
+  73                  <MapPin className="h-4 w-4 text-primary" />
+  74:                 <span className="text-sm text-muted-foreground">Bangalore, India</span>
+  75                </div>

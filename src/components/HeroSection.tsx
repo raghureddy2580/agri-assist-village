@@ -9,7 +9,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt="Smart Farming Technology"
+          alt="Vishwachinnapor Farming Technology"
           className="w-full h-full object-cover opacity-20"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/90 to-background/70"></div>
@@ -26,7 +26,7 @@ const HeroSection = () => {
 
           {/* Main Heading */}
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-            vishwachinnapor
+            Smart Farming For the
             <span className="text-primary block">Modern Farmer</span>
           </h1>
 

@@ -5,6 +5,7 @@ import { Menu, X, Sprout, Bell, User, Globe } from "lucide-react";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+
   const navItems = [
     { name: "Dashboard", href: "#dashboard" },
     { name: "Labor Hiring", href: "#labor" },
@@ -24,7 +25,7 @@ const Header = () => {
               <Sprout className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">SmartFarm</h1>
+              <h1 className="text-xl font-bold text-foreground">Smart Farming For the</h1>
               <p className="text-xs text-muted-foreground">Smart Agriculture Platform</p>
             </div>
           </div>

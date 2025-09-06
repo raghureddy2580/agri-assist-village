@@ -50,7 +50,7 @@ const Footer = () => {
                 <Sprout className="h-6 w-6 text-primary-foreground" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-foreground">SmartFarm</h3>
+                <h3 className="text-xl font-bold text-foreground">Vishwachinnapor</h3>
                 <p className="text-sm text-muted-foreground">Smart Agriculture Platform</p>
               </div>
             </div>
@@ -63,7 +63,7 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-primary" />
-                <span className="text-sm text-muted-foreground">support@smartfarm.com</span>
+                <span className="text-sm text-muted-foreground">support@vishwachinnapor.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-primary" />
@@ -171,7 +171,7 @@ const Footer = () => {
         <div className="border-t border-border mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-sm text-muted-foreground text-center md:text-left">
-              © 2024 SmartFarm. All rights reserved. Empowering farmers with technology.
+              © 2024 Vishwachinnapor. All rights reserved. Empowering farmers with technology.
             </p>
             <div className="flex items-center space-x-6">
               <span className="text-xs text-muted-foreground">Available in:</span>

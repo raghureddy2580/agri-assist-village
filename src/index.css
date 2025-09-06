@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Smart Farming Design System - Agricultural Theme
+/* Vishwachinnapor Design System - Agricultural Theme
 All colors MUST be HSL.
 */
 
@@ -23,14 +23,14 @@ All colors MUST be HSL.
     --primary-foreground: 0 0% 98%;
     --primary-hover: 120 65% 20%;
 
-    /* Secondary - Warm Earth */  
+    /* Secondary - Warm Earth */
     --secondary: 35 45% 85%;
     --secondary-foreground: 120 25% 15%;
-    
+
     /* Success - Fresh Green */
     --success: 120 55% 45%;
     --success-foreground: 0 0% 98%;
-    
+
     /* Warning - Golden Harvest */
     --warning: 45 95% 55%;
     --warning-foreground: 45 25% 15%;
@@ -56,7 +56,7 @@ All colors MUST be HSL.
     --gradient-primary: linear-gradient(135deg, hsl(120 60% 25%), hsl(100 55% 35%));
     --gradient-earth: linear-gradient(180deg, hsl(35 45% 85%), hsl(35 35% 75%));
     --gradient-sky: linear-gradient(180deg, hsl(200 70% 85%), hsl(200 50% 75%));
-    
+
     /* Shadows */
     --shadow-soft: 0 2px 8px hsl(120 25% 15% / 0.1);
     --shadow-medium: 0 4px 20px hsl(120 25% 15% / 0.15);
@@ -100,7 +100,7 @@ All colors MUST be HSL.
 
     --success: 120 55% 55%;
     --success-foreground: 120 25% 8%;
-    
+
     --warning: 45 85% 65%;
     --warning-foreground: 45 25% 15%;
 
@@ -116,7 +116,7 @@ All colors MUST be HSL.
     --border: 120 15% 18%;
     --input: 120 15% 18%;
     --ring: 100 55% 65%;
-    
+
     --sidebar-background: 120 25% 8%;
     --sidebar-foreground: 35 25% 92%;
     --sidebar-primary: 100 55% 65%;
@@ -142,23 +142,23 @@ All colors MUST be HSL.
   .gradient-primary {
     background: var(--gradient-primary);
   }
-  
+
   .gradient-earth {
     background: var(--gradient-earth);
   }
-  
+
   .gradient-sky {
     background: var(--gradient-sky);
   }
-  
+
   .shadow-soft {
     box-shadow: var(--shadow-soft);
   }
-  
+
   .shadow-medium {
     box-shadow: var(--shadow-medium);
   }
-  
+
   .shadow-strong {
     box-shadow: var(--shadow-strong);
   }
