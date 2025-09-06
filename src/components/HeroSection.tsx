@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Play, ArrowRight, Users, TrendingUp, Shield } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Play, ArrowRight, Users, TrendingUp, Shield, X } from "lucide-react";
 import heroImage from "@/assets/hero-farming.jpg";
 
 const HeroSection = () => {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-background to-accent/20">
       {/* Background Image with Overlay */}
@@ -42,10 +46,31 @@ const HeroSection = () => {
               Get Started Free
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-6 font-semibold">
-              <Play className="mr-2 h-5 w-5" />
-              Watch Demo
-            </Button>
+            <Dialog open={isVideoOpen} onOpenChange={setIsVideoOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="lg" className="text-lg px-8 py-6 font-semibold">
+                  <Play className="mr-2 h-5 w-5" />
+                  Watch Demo
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl w-full p-0">
+                <DialogHeader className="p-6 pb-0">
+                  <DialogTitle className="text-xl font-bold">Smart Agriculture Platform Demo</DialogTitle>
+                </DialogHeader>
+                <div className="relative w-full aspect-video">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src="https://www.youtube.com/embed/2V8t7bSnadM?autoplay=1"
+                    title="Smart Agriculture Platform Demo"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="rounded-b-lg"
+                  ></iframe>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           {/* Stats */}
