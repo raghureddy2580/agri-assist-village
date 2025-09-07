@@ -35,6 +35,13 @@ const initialInventory: { [key: number]: number } = {
     13: 90, // Bell Peppers
     14: 50, // Fresh Ginger
     15: 75, // Garlic
+    16: 350, // Potato
+    17: 280, // Onion
+    18: 450, // Chickpea
+    19: 320, // Groundnut
+    20: 180, // Mango
+    21: 220, // Chili
+    22: 150, // Coffee
 };
 
 // Product details for enhanced display
@@ -218,6 +225,95 @@ export const productDetails: { [key: number]: any } = {
         },
         harvestDate: "2024-08-25",
         certification: "Fresh Produce Certified"
+    },
+    16: {
+        description: "Fresh dug potatoes with smooth skin and firm texture. Excellent for boiling, baking, or frying.",
+        specifications: {
+            variety: "Kufri Jyoti",
+            size: "Medium (100-150g)",
+            skin: "Smooth, light brown",
+            shelfLife: "20-25 days",
+            packaging: "20kg gunny bags"
+        },
+        harvestDate: "2024-09-04",
+        certification: "Fresh Produce Certified"
+    },
+    17: {
+        description: "Sweet and pungent organic onions grown without chemical fertilizers. Perfect for cooking and medicinal uses.",
+        specifications: {
+            variety: "Red Onion",
+            size: "Medium (80-100g)",
+            color: "Deep red",
+            shelfLife: "30-45 days",
+            packaging: "10kg mesh bags"
+        },
+        harvestDate: "2024-08-30",
+        certification: "NPOP Organic Certified"
+    },
+    18: {
+        description: "Important pulse crop, rich in protein and carbohydrates. Major source of dietary protein in India.",
+        specifications: {
+            variety: "JG-11",
+            protein: "18-20%",
+            size: "Medium (8-9mm)",
+            color: "Beige",
+            shelfLife: "12 months",
+            packaging: "50kg jute bags"
+        },
+        harvestDate: "2024-03-15",
+        certification: "FSSAI Approved"
+    },
+    19: {
+        description: "Major oilseed crop, important source of edible oil and protein. Also known as peanut.",
+        specifications: {
+            variety: "TAG-24",
+            oilContent: "45-48%",
+            size: "Medium pods",
+            shelling: "70-75%",
+            shelfLife: "6 months",
+            packaging: "50kg jute bags"
+        },
+        harvestDate: "2024-10-20",
+        certification: "FSSAI Approved"
+    },
+    20: {
+        description: "King of fruits, most important fruit crop in India. Rich in vitamins and minerals.",
+        specifications: {
+            variety: "Alphonso",
+            size: "Large (300-400g)",
+            color: "Yellow with red blush",
+            brix: "18-20%",
+            shelfLife: "7-10 days",
+            packaging: "5kg wooden crates"
+        },
+        harvestDate: "2024-05-15",
+        certification: "Agmark Certified"
+    },
+    21: {
+        description: "Important spice crop, major source of capsaicin. Used in cooking and medicine worldwide.",
+        specifications: {
+            variety: "Byadgi",
+            length: "8-10cm",
+            color: "Deep red",
+            capsaicin: "High",
+            shelfLife: "6 months",
+            packaging: "10kg jute bags"
+        },
+        harvestDate: "2024-11-10",
+        certification: "Spice Board Certified"
+    },
+    22: {
+        description: "Major cash crop, important beverage crop. Grown in hilly regions of South India.",
+        specifications: {
+            variety: "Coffea arabica",
+            beanSize: "Medium",
+            caffeine: "1.2-1.5%",
+            moisture: "10-12%",
+            shelfLife: "12 months",
+            packaging: "60kg jute bags"
+        },
+        harvestDate: "2024-12-20",
+        certification: "Coffee Board Certified"
     }
 };
 

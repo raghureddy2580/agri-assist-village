@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -7,10 +8,11 @@ import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
 import { cropDatabase, CropInfo, getCropById } from '@/lib/cropDatabase';
-import { Thermometer, Droplets, Wind, Sun, Calendar, AlertTriangle, CheckCircle, Info, Leaf, Sprout, Scissors, Truck } from 'lucide-react';
+import { Thermometer, Droplets, Wind, Sun, Calendar, AlertTriangle, CheckCircle, Info, Leaf, Sprout, Scissors, Truck, Camera, Scan } from 'lucide-react';
 
 const CropGuide: React.FC = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [selectedCrop, setSelectedCrop] = useState<CropInfo | null>(null);
     const [activeTab, setActiveTab] = useState('overview');
 
@@ -67,10 +69,34 @@ const CropGuide: React.FC = () => {
                     <p className="text-muted-foreground">Comprehensive guides for successful crop cultivation</p>
                 </div>
 
+                {/* Plant Scanner Quick Access */}
+                <Card className="mb-8 bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
+                    <CardContent className="p-6">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                    <Scan className="h-6 w-6 text-green-600" />
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-semibold text-green-800">AI Plant Disease Scanner</h3>
+                                    <p className="text-green-600">Scan your plants to detect diseases and get treatment recommendations</p>
+                                </div>
+                            </div>
+                            <Button
+                                onClick={() => navigate('/scanner')}
+                                className="bg-green-600 hover:bg-green-700 text-white"
+                            >
+                                <Camera className="h-4 w-4 mr-2" />
+                                Scan Plant
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
+
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     {/* Crop Selection Sidebar */}
                     <div className="lg:col-span-1">
-                        <Card>
+                        <Card className="mb-6">
                             <CardHeader>
                                 <CardTitle>Select Crop</CardTitle>
                             </CardHeader>
@@ -87,6 +113,27 @@ const CropGuide: React.FC = () => {
                                             <span className="text-left">{crop.name}</span>
                                         </Button>
                                     ))}
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Quick Scanner Access */}
+                        <Card className="bg-blue-50 border-blue-200">
+                            <CardContent className="p-4">
+                                <div className="text-center">
+                                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                        <Camera className="h-5 w-5 text-blue-600" />
+                                    </div>
+                                    <h4 className="font-medium text-blue-800 mb-2">Need Help Identifying Issues?</h4>
+                                    <p className="text-sm text-blue-600 mb-3">Scan your plants for instant disease detection</p>
+                                    <Button
+                                        onClick={() => navigate('/scanner')}
+                                        size="sm"
+                                        className="w-full bg-blue-600 hover:bg-blue-700"
+                                    >
+                                        <Scan className="h-3 w-3 mr-1" />
+                                        Quick Scan
+                                    </Button>
                                 </div>
                             </CardContent>
                         </Card>

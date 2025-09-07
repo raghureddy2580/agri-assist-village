@@ -27,7 +27,7 @@ const FeatureCards = () => {
     {
       icon: Leaf,
       title: "Crop & Pest Management",
-      description: "Get AI-powered insights for crop cultivation, seasonal planning, and early pest detection with treatment recommendations.",
+      description: "Get AI-powered insights for crop cultivation, seasonal planning, and early pest detection. Scan plants for disease identification and get treatment recommendations.",
       color: "text-success",
       bgColor: "bg-success/10",
       actionText: "Manage Crops",

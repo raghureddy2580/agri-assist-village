@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { CartProvider } from "./contexts/CartContext";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
 import { ToastProvider } from "./components/Toast";
 import Index from "./pages/Index";
 import Checkout from "./pages/Checkout";
@@ -32,43 +33,45 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 function App() {
   return (
     <ToastProvider>
-      <AuthProvider>
-        <CartProvider>
-          <Router>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Index />} />
-              <Route path="/checkout" element={
-                <ProtectedRoute>
-                  <Checkout />
-                </ProtectedRoute>
-              } />
-              <Route path="/order-confirmation" element={
-                <ProtectedRoute>
-                  <OrderConfirmation />
-                </ProtectedRoute>
-              } />
-              <Route path="/alerts" element={
-                <ProtectedRoute>
-                  <Alerts />
-                </ProtectedRoute>
-              } />
-              <Route path="/scanner" element={
-                <ProtectedRoute>
-                  <PlantScanner />
-                </ProtectedRoute>
-              } />
-              <Route path="/crop-guide" element={
-                <ProtectedRoute>
-                  <CropGuide />
-                </ProtectedRoute>
-              } />
-              {/* Fallback route */}
-              <Route path="*" element={<Index />} />
-            </Routes>
-          </Router>
-        </CartProvider>
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Router>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Index />} />
+                <Route path="/checkout" element={
+                  <ProtectedRoute>
+                    <Checkout />
+                  </ProtectedRoute>
+                } />
+                <Route path="/order-confirmation" element={
+                  <ProtectedRoute>
+                    <OrderConfirmation />
+                  </ProtectedRoute>
+                } />
+                <Route path="/alerts" element={
+                  <ProtectedRoute>
+                    <Alerts />
+                  </ProtectedRoute>
+                } />
+                <Route path="/scanner" element={
+                  <ProtectedRoute>
+                    <PlantScanner />
+                  </ProtectedRoute>
+                } />
+                <Route path="/crop-guide" element={
+                  <ProtectedRoute>
+                    <CropGuide />
+                  </ProtectedRoute>
+                } />
+                {/* Fallback route */}
+                <Route path="*" element={<Index />} />
+              </Routes>
+            </Router>
+          </CartProvider>
+        </AuthProvider>
+      </LanguageProvider>
     </ToastProvider>
   );
 }

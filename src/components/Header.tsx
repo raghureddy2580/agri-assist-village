@@ -2,10 +2,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageSelector from './LanguageSelector';
 import { LogOut, User, ShoppingCart, Leaf, Bell, Camera, BookOpen } from 'lucide-react';
 
 const Header: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -21,6 +24,11 @@ const Header: React.FC = () => {
           <div className="flex items-center space-x-2">
             <Leaf className="h-8 w-8 text-green-600" />
             <span className="text-xl font-bold text-gray-800">AgriAssist</span>
+          </div>
+
+          {/* Language Selector */}
+          <div className="flex items-center mr-4">
+            <LanguageSelector />
           </div>
 
           {/* Navigation */}
@@ -41,7 +49,7 @@ const Header: React.FC = () => {
                   onClick={() => navigate('/')}
                 >
                   <ShoppingCart className="h-4 w-4" />
-                  <span>Marketplace</span>
+                  <span>{t('marketplace')}</span>
                 </Button>
 
                 {/* Alerts Button */}
@@ -52,7 +60,7 @@ const Header: React.FC = () => {
                   onClick={() => navigate('/alerts')}
                 >
                   <Bell className="h-4 w-4" />
-                  <span>Alerts</span>
+                  <span>{t('alerts')}</span>
                 </Button>
 
                 {/* Scanner Button */}
@@ -63,7 +71,7 @@ const Header: React.FC = () => {
                   onClick={() => navigate('/scanner')}
                 >
                   <Camera className="h-4 w-4" />
-                  <span>Scanner</span>
+                  <span>{t('scanner')}</span>
                 </Button>
 
                 {/* Crop Guide Button */}
@@ -74,7 +82,7 @@ const Header: React.FC = () => {
                   onClick={() => navigate('/crop-guide')}
                 >
                   <BookOpen className="h-4 w-4" />
-                  <span>Crop Guide</span>
+                  <span>{t('cropGuide')}</span>
                 </Button>
 
                 {/* Logout Button */}
@@ -85,7 +93,7 @@ const Header: React.FC = () => {
                   className="flex items-center space-x-2"
                 >
                   <LogOut className="h-4 w-4" />
-                  <span>Logout</span>
+                  <span>{t('logout')}</span>
                 </Button>
               </>
             ) : (
@@ -98,7 +106,7 @@ const Header: React.FC = () => {
                   className="flex items-center space-x-2"
                 >
                   <User className="h-4 w-4" />
-                  <span>Login</span>
+                  <span>{t('login')}</span>
                 </Button>
 
                 {/* Register Button */}
