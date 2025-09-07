@@ -31,7 +31,7 @@ const FeatureCards = () => {
       color: "text-success",
       bgColor: "bg-success/10",
       actionText: "Manage Crops",
-      href: "https://www.amazon.in" // Add your desired link here
+      href: "/crop-guide"
     },
     {
       icon: Cloud,

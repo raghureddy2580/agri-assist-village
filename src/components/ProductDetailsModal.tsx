@@ -105,13 +105,36 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                             distance={product.distance}
                         />
 
+                        {/* Product Description */}
+                        {product.description && (
+                            <div className="space-y-2">
+                                <h3 className="font-semibold">Description</h3>
+                                <p className="text-sm text-muted-foreground">{product.description}</p>
+                            </div>
+                        )}
+
+                        {/* Product Specifications */}
+                        {product.specifications && (
+                            <div className="space-y-3">
+                                <h3 className="font-semibold">Specifications</h3>
+                                <div className="grid grid-cols-2 gap-2 text-sm">
+                                    {Object.entries(product.specifications).map(([key, value]) => (
+                                        <div key={key} className="flex justify-between">
+                                            <span className="text-muted-foreground capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                                            <span className="font-medium">{value}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
                         {/* Product Information */}
                         <div className="space-y-4">
                             <h3 className="font-semibold">Product Information</h3>
                             <div className="space-y-2 text-sm">
                                 <div className="flex justify-between">
                                     <span className="text-muted-foreground">Available Quantity:</span>
-                                    <span className="font-medium">{product.quantity}</span>
+                                    <span className="font-medium">{product.availableQuantity || product.quantity} kg</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-muted-foreground">Category:</span>
@@ -128,6 +151,18 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                                         <span className="font-medium">{product.rating}/5</span>
                                     </div>
                                 </div>
+                                {product.harvestDate && (
+                                    <div className="flex justify-between">
+                                        <span className="text-muted-foreground">Harvest Date:</span>
+                                        <span className="font-medium">{new Date(product.harvestDate).toLocaleDateString()}</span>
+                                    </div>
+                                )}
+                                {product.certification && (
+                                    <div className="flex justify-between">
+                                        <span className="text-muted-foreground">Certification:</span>
+                                        <Badge variant="secondary" className="text-xs">{product.certification}</Badge>
+                                    </div>
+                                )}
                             </div>
                         </div>
 

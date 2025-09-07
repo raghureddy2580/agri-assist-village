@@ -11,6 +11,7 @@ import { useToast } from "./Toast";
 import DeliveryCalculator from "./DeliveryCalculator";
 import FloatingCart from "./FloatingCart";
 import ProductDetailsModal from "./ProductDetailsModal";
+import { getAvailableQuantity, reduceInventory, productDetails } from "@/lib/inventory";
 import {
   ShoppingCart,
   Star,
@@ -59,7 +60,17 @@ const MarketplacePreview = () => {
       rating: 4.8,
       image: "🌾",
       category: "Grains",
-      quality: "Organic"
+      quality: "Organic",
+      description: "Long-grain aromatic rice, perfect for biryani and pulao. Grown using traditional farming methods without chemical pesticides.",
+      specifications: {
+        variety: "Basmati 386",
+        grainLength: "8.5mm",
+        moisture: "12%",
+        shelfLife: "2 years",
+        packaging: "5kg vacuum sealed bags"
+      },
+      harvestDate: "2024-08-15",
+      certification: "NPOP Certified Organic"
     },
     {
       id: 2,
@@ -71,7 +82,17 @@ const MarketplacePreview = () => {
       rating: 4.6,
       image: "🍅",
       category: "Vegetables",
-      quality: "Premium"
+      quality: "Premium",
+      description: "Vine-ripened tomatoes with rich red color and juicy texture. Perfect for salads, cooking, and making sauces.",
+      specifications: {
+        variety: "Local Hybrid",
+        size: "Medium (80-100g)",
+        color: "Deep red",
+        shelfLife: "7-10 days",
+        packaging: "5kg wooden crates"
+      },
+      harvestDate: "2024-09-01",
+      certification: "Fresh Produce Certified"
     },
     {
       id: 3,
@@ -83,7 +104,17 @@ const MarketplacePreview = () => {
       rating: 4.9,
       image: "🌾",
       category: "Processed",
-      quality: "Grade A"
+      quality: "Grade A",
+      description: "Finely milled whole wheat flour, ideal for making chapatis, parathas, and traditional Indian breads.",
+      specifications: {
+        type: "Whole Wheat",
+        protein: "12.5%",
+        moisture: "10%",
+        shelfLife: "6 months",
+        packaging: "1kg, 5kg, 10kg bags"
+      },
+      harvestDate: "2024-07-20",
+      certification: "FSSAI Approved"
     },
     {
       id: 4,
@@ -95,7 +126,17 @@ const MarketplacePreview = () => {
       rating: 4.7,
       image: "🥕",
       category: "Vegetables",
-      quality: "Organic"
+      quality: "Organic",
+      description: "Sweet and crunchy organic carrots grown without synthetic pesticides. Rich in beta-carotene and nutrients.",
+      specifications: {
+        variety: "Nantes",
+        size: "Medium (15-18cm)",
+        color: "Orange",
+        shelfLife: "14 days",
+        packaging: "2kg mesh bags"
+      },
+      harvestDate: "2024-08-25",
+      certification: "NPOP Organic Certified"
     },
     {
       id: 5,
@@ -107,7 +148,17 @@ const MarketplacePreview = () => {
       rating: 4.5,
       image: "🥬",
       category: "Vegetables",
-      quality: "Fresh"
+      quality: "Fresh",
+      description: "Tender green spinach leaves, harvested fresh daily. Excellent source of iron, vitamins, and minerals.",
+      specifications: {
+        variety: "Palak",
+        leafSize: "Medium",
+        color: "Deep green",
+        shelfLife: "3-4 days",
+        packaging: "500g bunches"
+      },
+      harvestDate: "2024-09-05",
+      certification: "Fresh Produce Certified"
     },
     {
       id: 6,
@@ -119,7 +170,17 @@ const MarketplacePreview = () => {
       rating: 4.9,
       image: "🌾",
       category: "Grains",
-      quality: "Organic"
+      quality: "Organic",
+      description: "Nutritious red rice with high fiber content and nutty flavor. Rich in antioxidants and minerals.",
+      specifications: {
+        variety: "Kerala Red",
+        grainLength: "6mm",
+        color: "Red-brown",
+        shelfLife: "18 months",
+        packaging: "2kg vacuum packs"
+      },
+      harvestDate: "2024-08-10",
+      certification: "Organic & Natural"
     },
     {
       id: 7,
@@ -131,7 +192,17 @@ const MarketplacePreview = () => {
       rating: 4.4,
       image: "🫛",
       category: "Vegetables",
-      quality: "Fresh"
+      quality: "Fresh",
+      description: "Sweet and tender green peas, perfect for cooking curries, soups, or eating fresh from the pod.",
+      specifications: {
+        variety: "Sweet Peas",
+        size: "Small to medium",
+        color: "Bright green",
+        shelfLife: "5-7 days",
+        packaging: "1kg plastic bags"
+      },
+      harvestDate: "2024-09-03",
+      certification: "Fresh Produce Certified"
     },
     {
       id: 8,
@@ -143,7 +214,171 @@ const MarketplacePreview = () => {
       rating: 4.8,
       image: "🌾",
       category: "Grains",
-      quality: "Premium"
+      quality: "Premium",
+      description: "Fragrant long-grain rice with delicate aroma. Perfect for Asian cuisine and special occasions.",
+      specifications: {
+        variety: "Thai Jasmine",
+        grainLength: "8mm",
+        fragrance: "High",
+        shelfLife: "24 months",
+        packaging: "5kg premium bags"
+      },
+      harvestDate: "2024-08-20",
+      certification: "Premium Quality Certified"
+    },
+    {
+      id: 9,
+      name: "Cherry Tomatoes",
+      farmer: "Ravi Kumar",
+      location: { city: "Bangalore", area: "Marathahalli", lat: 12.9581, lng: 77.7014 },
+      price: "₹60/kg",
+      quantity: "80 kg available",
+      rating: 4.7,
+      image: "🍅",
+      category: "Vegetables",
+      quality: "Premium",
+      description: "Sweet and juicy cherry tomatoes, perfect for salads, snacking, or garnishing. Grown in controlled greenhouse environment.",
+      specifications: {
+        variety: "Sweet 100",
+        size: "Small (15-20g)",
+        color: "Bright red",
+        shelfLife: "10-12 days",
+        packaging: "250g punnet boxes"
+      },
+      harvestDate: "2024-09-02",
+      certification: "Premium Quality Certified"
+    },
+    {
+      id: 10,
+      name: "Roma Tomatoes",
+      farmer: "Priya Patel",
+      location: { city: "Bangalore", area: "Whitefield", lat: 12.9698, lng: 77.7499 },
+      price: "₹35/kg",
+      quantity: "120 kg available",
+      rating: 4.5,
+      image: "🍅",
+      category: "Vegetables",
+      quality: "Fresh",
+      description: "Oval-shaped tomatoes ideal for cooking sauces, pastes, and canning. Firm texture with fewer seeds.",
+      specifications: {
+        variety: "Roma VF",
+        size: "Medium (100-120g)",
+        shape: "Oval",
+        shelfLife: "8-10 days",
+        packaging: "5kg wooden boxes"
+      },
+      harvestDate: "2024-09-01",
+      certification: "Fresh Produce Certified"
+    },
+    {
+      id: 11,
+      name: "Organic Onions",
+      farmer: "Suresh Reddy",
+      location: { city: "Mysore", area: "VV Mohalla", lat: 12.2958, lng: 76.6394 },
+      price: "₹28/kg",
+      quantity: "300 kg available",
+      rating: 4.6,
+      image: "🧅",
+      category: "Vegetables",
+      quality: "Organic",
+      description: "Sweet and pungent organic onions grown without chemical fertilizers. Perfect for cooking and medicinal uses.",
+      specifications: {
+        variety: "Red Onion",
+        size: "Medium (80-100g)",
+        color: "Deep red",
+        shelfLife: "30-45 days",
+        packaging: "10kg mesh bags"
+      },
+      harvestDate: "2024-08-30",
+      certification: "NPOP Organic Certified"
+    },
+    {
+      id: 12,
+      name: "Fresh Potatoes",
+      farmer: "Anita Sharma",
+      location: { city: "Bangalore", area: "Indiranagar", lat: 12.9719, lng: 77.6412 },
+      price: "₹22/kg",
+      quantity: "400 kg available",
+      rating: 4.4,
+      image: "🥔",
+      category: "Vegetables",
+      quality: "Fresh",
+      description: "Fresh dug potatoes with smooth skin and firm texture. Excellent for boiling, baking, or frying.",
+      specifications: {
+        variety: "Kufri Jyoti",
+        size: "Medium (100-150g)",
+        skin: "Smooth, light brown",
+        shelfLife: "20-25 days",
+        packaging: "20kg gunny bags"
+      },
+      harvestDate: "2024-09-04",
+      certification: "Fresh Produce Certified"
+    },
+    {
+      id: 13,
+      name: "Bell Peppers",
+      farmer: "Raj Singh",
+      location: { city: "Bangalore", area: "Koramangala", lat: 12.9352, lng: 77.6245 },
+      price: "₹45/kg",
+      quantity: "90 kg available",
+      rating: 4.8,
+      image: "🫑",
+      category: "Vegetables",
+      quality: "Premium",
+      description: "Crisp and colorful bell peppers, rich in vitamins. Available in red, yellow, and green varieties.",
+      specifications: {
+        variety: "California Wonder",
+        size: "Large (150-200g)",
+        colors: "Red, Yellow, Green",
+        shelfLife: "10-14 days",
+        packaging: "2kg cardboard boxes"
+      },
+      harvestDate: "2024-09-03",
+      certification: "Premium Quality Certified"
+    },
+    {
+      id: 14,
+      name: "Fresh Ginger",
+      farmer: "Lakshmi Devi",
+      location: { city: "Bangalore", area: "JP Nagar", lat: 12.9063, lng: 77.5857 },
+      price: "₹80/kg",
+      quantity: "50 kg available",
+      rating: 4.9,
+      image: "🫚",
+      category: "Vegetables",
+      quality: "Organic",
+      description: "Aromatic organic ginger with strong flavor and medicinal properties. Perfect for cooking and health remedies.",
+      specifications: {
+        variety: "Rio de Janeiro",
+        size: "Medium (8-10cm)",
+        moisture: "8-10%",
+        shelfLife: "6-8 months",
+        packaging: "5kg jute bags"
+      },
+      harvestDate: "2024-08-28",
+      certification: "NPOP Organic Certified"
+    },
+    {
+      id: 15,
+      name: "Garlic",
+      farmer: "Venkat Rao",
+      location: { city: "Mysore", area: "Saraswathipuram", lat: 12.3118, lng: 76.6525 },
+      price: "₹70/kg",
+      quantity: "75 kg available",
+      rating: 4.7,
+      image: "🧄",
+      category: "Vegetables",
+      quality: "Fresh",
+      description: "Fresh garlic bulbs with strong aroma and flavor. Excellent for cooking and health benefits.",
+      specifications: {
+        variety: "G-282",
+        bulbSize: "Medium (40-50g)",
+        cloves: "10-12 per bulb",
+        shelfLife: "8-10 months",
+        packaging: "10kg mesh bags"
+      },
+      harvestDate: "2024-08-25",
+      certification: "Fresh Produce Certified"
     }
   ];
 
@@ -183,7 +418,7 @@ const MarketplacePreview = () => {
     setUserCoordinates(coords);
   }, [userLocation]);
 
-  // Add distance to each product and filter by radius
+  // Add distance, current inventory, and detailed info to each product
   const productsWithDistance = featuredProducts.map(product => {
     const distance = calculateDistance(
       userCoordinates.lat,
@@ -191,7 +426,16 @@ const MarketplacePreview = () => {
       product.location.lat,
       product.location.lng
     );
-    return { ...product, distance };
+    const availableQuantity = getAvailableQuantity(product.id);
+    const details = productDetails[product.id] || {};
+
+    return {
+      ...product,
+      ...details,
+      distance,
+      availableQuantity,
+      quantity: `${availableQuantity} kg available`
+    };
   });
 
   // Filter products by radius
@@ -230,15 +474,29 @@ const MarketplacePreview = () => {
 
   // Handler for quantity change
   const handleQuantityChange = (productId: number, newQuantity: number) => {
+    const availableQuantity = getAvailableQuantity(productId);
+    const maxQuantity = Math.min(availableQuantity, 99); // Cap at 99 for UI
     setProductQuantities(prev => ({
       ...prev,
-      [productId]: Math.max(1, newQuantity)
+      [productId]: Math.max(1, Math.min(maxQuantity, newQuantity))
     }));
   };
 
   // Handler for Buy Now button
   const handleBuy = (product) => {
     const quantity = productQuantities[product.id] || 1;
+    const availableQuantity = getAvailableQuantity(product.id);
+
+    if (quantity > availableQuantity) {
+      showToast({
+        type: 'error',
+        title: 'Insufficient Inventory',
+        message: `Only ${availableQuantity} kg available. Please reduce quantity.`,
+        duration: 4000
+      });
+      return;
+    }
+
     // Navigate to checkout page with product info and user location
     navigate(`/checkout?productId=${product.id}&quantity=${quantity}&location=${encodeURIComponent(userLocation)}`);
   };

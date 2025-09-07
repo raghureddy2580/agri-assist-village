@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,12 +10,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, ShoppingCart, MapPin, User, CreditCard } from "lucide-react";
+import { reduceInventory } from "@/lib/inventory";
+import { getCurrentLocation, formatAddress } from "@/lib/geolocation";
+import Header from "@/components/Header";
+import { ArrowLeft, ShoppingCart, MapPin, User, CreditCard, Navigation } from "lucide-react";
 
 const Checkout = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { state: cartState, dispatch: cartDispatch } = useCart();
+    const { user } = useAuth();
     const params = new URLSearchParams(location.search);
     const productId = params.get("productId");
     const quantity = params.get("quantity");
@@ -26,15 +31,32 @@ const Checkout = () => {
 
     const [selectedQuantity, setSelectedQuantity] = useState(1);
     const [customerInfo, setCustomerInfo] = useState({
-        name: "",
-        phone: "",
-        email: "",
-        address: "",
-        city: "",
-        pincode: ""
+        name: user?.name || "",
+        phone: user?.phone || "",
+        email: user?.email || "",
+        address: user?.address || "",
+        city: user?.city || userLocation || "",
+        pincode: user?.pincode || ""
     });
     const [paymentMethod, setPaymentMethod] = useState("");
     const [orderNotes, setOrderNotes] = useState("");
+    const [isGettingLocation, setIsGettingLocation] = useState(false);
+    const [locationError, setLocationError] = useState("");
+
+    // Update customer info when user data changes
+    useEffect(() => {
+        if (user) {
+            setCustomerInfo(prev => ({
+                ...prev,
+                name: user.name || prev.name,
+                phone: user.phone || prev.phone,
+                email: user.email || prev.email,
+                address: user.address || prev.address,
+                city: user.city || prev.city,
+                pincode: user.pincode || prev.pincode
+            }));
+        }
+    }, [user]);
 
     // Mock product data - in real app, this would come from API
     const productData = {
@@ -70,6 +92,138 @@ const Checkout = () => {
             category: "Processed",
             quality: "Grade A",
             location: { city: "Bangalore", area: "Whitefield" }
+        },
+        4: {
+            id: 4,
+            name: "Organic Carrots",
+            farmer: "Priya Sharma",
+            price: 30,
+            unit: "kg",
+            image: "🥕",
+            category: "Vegetables",
+            quality: "Organic",
+            location: { city: "Bangalore", area: "Koramangala" }
+        },
+        5: {
+            id: 5,
+            name: "Fresh Spinach",
+            farmer: "Kumar Reddy",
+            price: 20,
+            unit: "kg",
+            image: "🥬",
+            category: "Vegetables",
+            quality: "Fresh",
+            location: { city: "Bangalore", area: "Indiranagar" }
+        },
+        6: {
+            id: 6,
+            name: "Red Rice",
+            farmer: "Lakshmi Nair",
+            price: 50,
+            unit: "kg",
+            image: "🌾",
+            category: "Grains",
+            quality: "Organic",
+            location: { city: "Bangalore", area: "JP Nagar" }
+        },
+        7: {
+            id: 7,
+            name: "Green Peas",
+            farmer: "Ravi Patel",
+            price: 40,
+            unit: "kg",
+            image: "🫛",
+            category: "Vegetables",
+            quality: "Fresh",
+            location: { city: "Bangalore", area: "Marathahalli" }
+        },
+        8: {
+            id: 8,
+            name: "Jasmine Rice",
+            farmer: "Meera Singh",
+            price: 55,
+            unit: "kg",
+            image: "🌾",
+            category: "Grains",
+            quality: "Premium",
+            location: { city: "Mysore", area: "Saraswathipuram" }
+        },
+        9: {
+            id: 9,
+            name: "Cherry Tomatoes",
+            farmer: "Ravi Kumar",
+            price: 60,
+            unit: "kg",
+            image: "🍅",
+            category: "Vegetables",
+            quality: "Premium",
+            location: { city: "Bangalore", area: "Marathahalli" }
+        },
+        10: {
+            id: 10,
+            name: "Roma Tomatoes",
+            farmer: "Priya Patel",
+            price: 35,
+            unit: "kg",
+            image: "🍅",
+            category: "Vegetables",
+            quality: "Fresh",
+            location: { city: "Bangalore", area: "Whitefield" }
+        },
+        11: {
+            id: 11,
+            name: "Organic Onions",
+            farmer: "Suresh Reddy",
+            price: 28,
+            unit: "kg",
+            image: "🧅",
+            category: "Vegetables",
+            quality: "Organic",
+            location: { city: "Mysore", area: "VV Mohalla" }
+        },
+        12: {
+            id: 12,
+            name: "Fresh Potatoes",
+            farmer: "Anita Sharma",
+            price: 22,
+            unit: "kg",
+            image: "🥔",
+            category: "Vegetables",
+            quality: "Fresh",
+            location: { city: "Bangalore", area: "Indiranagar" }
+        },
+        13: {
+            id: 13,
+            name: "Bell Peppers",
+            farmer: "Raj Singh",
+            price: 45,
+            unit: "kg",
+            image: "🫑",
+            category: "Vegetables",
+            quality: "Premium",
+            location: { city: "Bangalore", area: "Koramangala" }
+        },
+        14: {
+            id: 14,
+            name: "Fresh Ginger",
+            farmer: "Lakshmi Devi",
+            price: 80,
+            unit: "kg",
+            image: "🫚",
+            category: "Vegetables",
+            quality: "Organic",
+            location: { city: "Bangalore", area: "JP Nagar" }
+        },
+        15: {
+            id: 15,
+            name: "Garlic",
+            farmer: "Venkat Rao",
+            price: 70,
+            unit: "kg",
+            image: "🧄",
+            category: "Vegetables",
+            quality: "Fresh",
+            location: { city: "Mysore", area: "Saraswathipuram" }
         }
     };
 
@@ -94,11 +248,66 @@ const Checkout = () => {
         }));
     };
 
-    const handlePlaceOrder = () => {
+    const handleGetCurrentLocation = async () => {
+        setIsGettingLocation(true);
+        setLocationError("");
+
+        try {
+            const locationData = await getCurrentLocation();
+            const formattedAddress = formatAddress(locationData);
+
+            setCustomerInfo(prev => ({
+                ...prev,
+                address: formattedAddress,
+                city: locationData.city || prev.city,
+                pincode: locationData.postalCode || prev.pincode
+            }));
+
+            alert("Location detected successfully!");
+        } catch (error) {
+            setLocationError(error.message);
+            alert(`Location Error: ${error.message}`);
+        } finally {
+            setIsGettingLocation(false);
+        }
+    };
+
+    const handlePlaceOrder = async () => {
         // Validate form
         if (!customerInfo.name || !customerInfo.phone || !customerInfo.address || !paymentMethod) {
             alert("Please fill in all required fields");
             return;
+        }
+
+        // Check inventory availability
+        const inventoryReduced = reduceInventory(parseInt(productId), selectedQuantity);
+        if (!inventoryReduced) {
+            alert("Sorry, this product is no longer available in the requested quantity. Please try again.");
+            navigate("/"); // Redirect to marketplace
+            return;
+        }
+
+        // Simulate payment processing for card/UPI
+        if (paymentMethod === "card" || paymentMethod === "upi") {
+            // Show processing message
+            const processingMessage = paymentMethod === "card"
+                ? "Processing card payment..."
+                : "Processing UPI payment...";
+
+            alert(processingMessage);
+
+            // Simulate payment delay
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Simulate payment success (90% success rate)
+            const paymentSuccess = Math.random() > 0.1;
+
+            if (!paymentSuccess) {
+                alert("Payment failed. Please try again or use a different payment method.");
+                return;
+            }
+
+            alert("Payment successful!");
         }
 
         // In a real app, this would make an API call to place the order
@@ -110,13 +319,14 @@ const Checkout = () => {
             paymentMethod,
             orderNotes,
             totalAmount: finalTotal,
-            userLocation
+            userLocation,
+            orderId: Date.now()
         };
 
         console.log("Order placed:", orderData);
 
         // Navigate to order confirmation
-        navigate(`/order-confirmation?orderId=${Date.now()}`);
+        navigate(`/order-confirmation?orderId=${orderData.orderId}`);
     };
 
     if (!product) {
@@ -136,8 +346,9 @@ const Checkout = () => {
     }
 
     return (
-        <div className="min-h-screen bg-background p-8">
-            <div className="max-w-4xl mx-auto">
+        <div className="min-h-screen bg-background">
+            <Header />
+            <div className="max-w-4xl mx-auto p-8">
                 <div className="mb-6">
                     <Button onClick={() => navigate("/")} variant="outline" className="mb-4">
                         <ArrowLeft className="h-4 w-4 mr-2" />
@@ -265,14 +476,30 @@ const Checkout = () => {
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="address">Delivery Address *</Label>
+                                    <div className="flex items-center justify-between mb-2">
+                                        <Label htmlFor="address">Delivery Address *</Label>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={handleGetCurrentLocation}
+                                            disabled={isGettingLocation}
+                                            className="flex items-center space-x-1"
+                                        >
+                                            <Navigation className="h-4 w-4" />
+                                            <span>{isGettingLocation ? 'Getting Location...' : 'Use Current Location'}</span>
+                                        </Button>
+                                    </div>
                                     <Textarea
                                         id="address"
                                         value={customerInfo.address}
                                         onChange={(e) => handleInputChange("address", e.target.value)}
-                                        placeholder="Enter your complete delivery address"
+                                        placeholder="Enter your complete delivery address or use current location"
                                         rows={3}
                                     />
+                                    {locationError && (
+                                        <p className="text-sm text-red-600 mt-1">{locationError}</p>
+                                    )}
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

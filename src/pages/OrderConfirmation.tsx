@@ -1,14 +1,17 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import Header from "@/components/Header";
 import { CheckCircle, ArrowLeft, Home, Package, Phone, MapPin } from "lucide-react";
 
 const OrderConfirmation = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { user } = useAuth();
     const params = new URLSearchParams(location.search);
     const orderId = params.get("orderId");
 
@@ -28,9 +31,9 @@ const OrderConfirmation = () => {
             quality: "Organic"
         },
         customer: {
-            name: "John Doe",
-            phone: "+91 9876543210",
-            address: "123 Main Street, Bangalore, Karnataka 560001"
+            name: user?.name || "Customer",
+            phone: user?.phone || "Phone not provided",
+            address: user?.address ? `${user.address}, ${user.city || ''} ${user.pincode || ''}`.trim() : "Address not provided"
         },
         payment: {
             method: "Cash on Delivery",
@@ -44,8 +47,9 @@ const OrderConfirmation = () => {
     };
 
     return (
-        <div className="min-h-screen bg-background p-8">
-            <div className="max-w-2xl mx-auto">
+        <div className="min-h-screen bg-background">
+            <Header />
+            <div className="max-w-2xl mx-auto p-8">
                 {/* Success Header */}
                 <div className="text-center mb-8">
                     <div className="flex justify-center mb-4">
