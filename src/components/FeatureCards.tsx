@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import {
   Users,
   Leaf,
@@ -14,6 +15,8 @@ import {
 } from "lucide-react";
 
 const FeatureCards = () => {
+  const navigate = useNavigate();
+
   const features = [
     {
       icon: Users,
@@ -98,16 +101,27 @@ const FeatureCards = () => {
                   {feature.description}
                 </CardDescription>
                 {feature.href ? (
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all duration-200"
-                  >
-                    <a href={feature.href}>
+                  feature.href.startsWith('/') ? (
+                    <Button
+                      variant="outline"
+                      className="w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all duration-200"
+                      onClick={() => navigate(feature.href)}
+                    >
                       {feature.actionText}
                       <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </a>
-                  </Button>
+                    </Button>
+                  ) : (
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all duration-200"
+                    >
+                      <a href={feature.href} target="_blank" rel="noopener noreferrer">
+                        {feature.actionText}
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </a>
+                    </Button>
+                  )
                 ) : (
                   <Button
                     variant="outline"

@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Alerts from "./pages/Alerts";
 import PlantScanner from "./pages/PlantScanner";
 import CropGuide from "./pages/CropGuide";
+import NotFound from "./pages/NotFound";
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -66,7 +67,7 @@ function App() {
                   </ProtectedRoute>
                 } />
                 {/* Fallback route */}
-                <Route path="*" element={<Index />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </Router>
           </CartProvider>
