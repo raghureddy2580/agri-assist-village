@@ -15,59 +15,6 @@ import {
 const API_KEY = "0cd826d8ef6257fa47bdb31a6a69475a"; // Your OpenWeatherMap API key
 const CITY = "Bangalore,IN"; // Change to your desired city
 
-function getFarmingAlerts(currentWeather: any, forecast: any[]) {
-  const alerts = [];
-
-  if (!currentWeather) return alerts;
-
-  // Alert: Wheat harvesting
-  if (
-    currentWeather.temperature >= 20 &&
-    currentWeather.temperature <= 30 &&
-    currentWeather.humidity < 80 &&
-    !/rain/i.test(currentWeather.condition)
-  ) {
-    alerts.push({
-      type: "warning",
-      message: "Ideal conditions for wheat harvesting",
-      icon: "🌾",
-      bg: "bg-yellow-50 border-yellow-400"
-    });
-  }
-
-  // Alert: Irrigation
-  if (currentWeather.windSpeed < 10 && currentWeather.humidity < 85) {
-    alerts.push({
-      type: "info",
-      message: "Good time for irrigation - low wind",
-      icon: "💧",
-      bg: "bg-blue-50 border-blue-400"
-    });
-  }
-
-  // Alert: Pesticide application
-  const rainNextDays = forecast.some(f => /rain/i.test(f.condition));
-  if (!rainNextDays && currentWeather.windSpeed < 15) {
-    alerts.push({
-      type: "success",
-      message: "Perfect weather for pesticide application",
-      icon: "🚜",
-      bg: "bg-green-50 border-green-400"
-    });
-  }
-
-  // Fallback if no alerts
-  if (alerts.length === 0) {
-    alerts.push({
-      type: "info",
-      message: "No special farming alerts for today.",
-      icon: "ℹ️",
-      bg: "bg-gray-50 border-gray-400"
-    });
-  }
-
-  return alerts;
-}
 
 const WeatherWidget = () => {
   const [currentWeather, setCurrentWeather] = useState<any>(null);
@@ -153,7 +100,7 @@ const WeatherWidget = () => {
   return (
     <section className="py-16 bg-gradient-sky/20" id="weather">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Current Weather Card */}
           <Card className="lg:col-span-1 shadow-medium">
             <CardHeader className="pb-4">
@@ -245,39 +192,6 @@ const WeatherWidget = () => {
                     </div>
                   ))
                 )}
-              </div>
-            </CardContent>
-          </Card>
-          {/* Farming Alerts */}
-          <Card className="lg:col-span-1 shadow-medium">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold">Farming Alerts</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {getFarmingAlerts(currentWeather, forecast).map((alert, index) => (
-                  <div
-                    key={index}
-                    className={`p-3 rounded-lg border-l-4 ${alert.bg}`}
-                  >
-                    <div className="flex items-start space-x-3">
-                      <span className="text-lg">{alert.icon}</span>
-                      <p className="text-sm font-medium text-foreground leading-relaxed">
-                        {alert.message}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Thermometer className="h-4 w-4 text-primary" />
-                  <span className="font-medium text-foreground">Today's Farming Tip</span>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  With current humidity at {currentWeather?.humidity ?? 65}%, it's an excellent time for transplanting seedlings.
-                  Avoid watering in the next 2 hours due to optimal soil moisture levels.
-                </p>
               </div>
             </CardContent>
           </Card>

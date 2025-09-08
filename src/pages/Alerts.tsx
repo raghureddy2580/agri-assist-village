@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/components/Toast';
 import Header from '@/components/Header';
-import { getCurrentWeather } from '@/lib/weatherService';
+import { getCurrentWeather, WeatherData } from '@/lib/weatherService';
 import { generateFarmingAlerts, getAlertPreferences, saveAlertPreferences, FarmingAlert, AlertPreferences } from '@/lib/farmingAlerts';
 import { smsService, SMSMessage } from '@/lib/smsService';
 import { Bell, AlertTriangle, Info, AlertCircle, Settings, CloudRain, Thermometer, Wind, Droplets, Phone, MessageSquare, CheckCircle, XCircle } from 'lucide-react';
@@ -19,6 +19,8 @@ const Alerts: React.FC = () => {
     const { showToast } = useToast();
     const [alerts, setAlerts] = useState<FarmingAlert[]>([]);
     const [smsMessages, setSmsMessages] = useState<SMSMessage[]>([]);
+    const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+    const [farmingTips, setFarmingTips] = useState<any[]>([]);
     const [preferences, setPreferences] = useState<AlertPreferences>({
         temperatureAlerts: true,
         rainAlerts: true,
@@ -32,7 +34,7 @@ const Alerts: React.FC = () => {
         emailEnabled: true
     });
     const [loading, setLoading] = useState(false);
-    const [activeTab, setActiveTab] = useState('alerts');
+    const [activeTab, setActiveTab] = useState('tips');
 
     // Load user preferences on component mount
     useEffect(() => {
@@ -42,11 +44,23 @@ const Alerts: React.FC = () => {
         }
     }, [user]);
 
-    // Generate alerts and load SMS messages when component mounts
+    // Generate alerts, load weather data, and SMS messages when component mounts
     useEffect(() => {
         generateAlerts();
+        loadWeatherData();
         loadSMSMessages();
     }, [user]);
+
+    const loadWeatherData = async () => {
+        try {
+            const weather = await getCurrentWeather();
+            setWeatherData(weather);
+            const tips = generateFarmingTips(weather);
+            setFarmingTips(tips);
+        } catch (error) {
+            console.error('Failed to load weather data:', error);
+        }
+    };
 
     const loadSMSMessages = () => {
         if (user && preferences.phoneNumber) {
@@ -114,6 +128,78 @@ const Alerts: React.FC = () => {
         }
     };
 
+    const generateFarmingTips = (weather: WeatherData) => {
+        const tips = [];
+
+        // Wheat harvesting tip
+        if (
+            weather.temperature >= 20 &&
+            weather.temperature <= 30 &&
+            weather.humidity < 80 &&
+            weather.precipitation === 0
+        ) {
+            tips.push({
+                type: "warning",
+                title: "Ideal Conditions for Wheat Harvesting",
+                message: "Current weather conditions are perfect for wheat harvesting. Low humidity and suitable temperature will help maintain grain quality.",
+                icon: "🌾",
+                bg: "bg-yellow-50 border-yellow-400",
+                crops: ["wheat", "barley"]
+            });
+        }
+
+        // Irrigation tip
+        if (weather.windSpeed < 10 && weather.humidity < 85) {
+            tips.push({
+                type: "info",
+                title: "Good Time for Irrigation",
+                message: "Low wind speeds make this an excellent time for irrigation. Water will be absorbed efficiently without much evaporation.",
+                icon: "💧",
+                bg: "bg-blue-50 border-blue-400",
+                crops: ["rice", "wheat", "cotton", "sugarcane"]
+            });
+        }
+
+        // Pesticide application tip
+        const rainInForecast = weather.forecast.some(f => f.precipitation > 0);
+        if (!rainInForecast && weather.windSpeed < 15) {
+            tips.push({
+                type: "success",
+                title: "Perfect Weather for Pesticide Application",
+                message: "No rain in the forecast and moderate wind speeds make this ideal for applying pesticides and fertilizers.",
+                icon: "🚜",
+                bg: "bg-green-50 border-green-400",
+                crops: ["cotton", "rice", "maize", "vegetables"]
+            });
+        }
+
+        // Seed sowing tip
+        if (weather.temperature >= 15 && weather.temperature <= 25 && weather.humidity >= 60) {
+            tips.push({
+                type: "info",
+                title: "Favorable Conditions for Seed Sowing",
+                message: "Temperature and humidity levels are optimal for seed germination. Consider sowing seeds for seasonal crops.",
+                icon: "🌱",
+                bg: "bg-green-50 border-green-400",
+                crops: ["maize", "vegetables", "pulses"]
+            });
+        }
+
+        // Fallback tip
+        if (tips.length === 0) {
+            tips.push({
+                type: "info",
+                title: "General Farming Tip",
+                message: "Monitor soil moisture regularly. Current conditions are stable for most farming activities.",
+                icon: "ℹ️",
+                bg: "bg-gray-50 border-gray-400",
+                crops: ["all crops"]
+            });
+        }
+
+        return tips;
+    };
+
     if (!user) {
         return (
             <div className="min-h-screen bg-background">
@@ -138,10 +224,14 @@ const Alerts: React.FC = () => {
                 </div>
 
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
-                    <TabsList className="grid w-full grid-cols-3">
+                    <TabsList className="grid w-full grid-cols-4">
                         <TabsTrigger value="alerts" className="flex items-center space-x-2">
                             <Bell className="h-4 w-4" />
                             <span>Current Alerts</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="tips" className="flex items-center space-x-2">
+                            <Info className="h-4 w-4" />
+                            <span>Farming Tips</span>
                         </TabsTrigger>
                         <TabsTrigger value="sms" className="flex items-center space-x-2">
                             <MessageSquare className="h-4 w-4" />
@@ -205,6 +295,71 @@ const Alerts: React.FC = () => {
                                                         <span>Weather: {alert.weatherCondition}</span>
                                                         <span>{alert.timestamp.toLocaleString()}</span>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                            </div>
+                        )}
+                    </TabsContent>
+
+                    {/* Farming Tips Tab */}
+                    <TabsContent value="tips" className="space-y-6">
+                        <div className="flex justify-between items-center">
+                            <h2 className="text-xl font-semibold">Weather-Based Farming Tips</h2>
+                            <Button onClick={loadWeatherData} disabled={!weatherData}>
+                                {weatherData ? 'Refresh Tips' : 'Loading...'}
+                            </Button>
+                        </div>
+
+                        {!weatherData ? (
+                            <Card>
+                                <CardContent className="text-center py-8">
+                                    <Info className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                                    <h3 className="text-lg font-medium mb-2">Loading Weather Data</h3>
+                                    <p className="text-muted-foreground">Fetching current weather conditions...</p>
+                                </CardContent>
+                            </Card>
+                        ) : farmingTips.length === 0 ? (
+                            <Card>
+                                <CardContent className="text-center py-8">
+                                    <Info className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                                    <h3 className="text-lg font-medium mb-2">No Specific Tips</h3>
+                                    <p className="text-muted-foreground">Weather conditions are normal. Continue with regular farming activities.</p>
+                                </CardContent>
+                            </Card>
+                        ) : (
+                            <div className="space-y-4">
+                                {farmingTips.map((tip, index) => (
+                                    <Card key={index} className={`border-l-4 ${tip.bg}`}>
+                                        <CardContent className="p-6">
+                                            <div className="flex items-start space-x-4">
+                                                <span className="text-2xl">{tip.icon}</span>
+                                                <div className="flex-1">
+                                                    <h3 className="font-semibold text-lg mb-2">{tip.title}</h3>
+                                                    <p className="text-muted-foreground mb-3">{tip.message}</p>
+
+                                                    <div className="flex flex-wrap gap-2 mb-3">
+                                                        <span className="text-sm font-medium">Recommended for:</span>
+                                                        {tip.crops.map((crop: string) => (
+                                                            <Badge key={crop} variant="outline" className="text-xs">
+                                                                {crop}
+                                                            </Badge>
+                                                        ))}
+                                                    </div>
+
+                                                    {weatherData && (
+                                                        <div className="bg-white/50 p-3 rounded-lg">
+                                                            <h4 className="font-medium mb-1">Current Conditions:</h4>
+                                                            <div className="grid grid-cols-2 gap-2 text-sm">
+                                                                <div>Temperature: {weatherData.temperature}°C</div>
+                                                                <div>Humidity: {weatherData.humidity}%</div>
+                                                                <div>Wind Speed: {weatherData.windSpeed} km/h</div>
+                                                                <div>Precipitation: {weatherData.precipitation}mm</div>
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </CardContent>

@@ -67,7 +67,8 @@ const FeatureCards = () => {
       description: "Receive timely notifications about weather warnings, pest outbreaks, government schemes, and market price updates.",
       color: "text-red-600",
       bgColor: "bg-red-100",
-      actionText: "Set Alerts"
+      actionText: "View Alerts",
+      href: "/alerts"
     }
   ];
 
