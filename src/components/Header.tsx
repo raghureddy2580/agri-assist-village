@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSelector from './LanguageSelector';
-import { LogOut, User, ShoppingCart, Leaf, Bell, Camera, BookOpen } from 'lucide-react';
+import { LogOut, User, ShoppingCart, Leaf, Bell, Camera, BookOpen, Users, Briefcase, TrendingUp } from 'lucide-react';
 
 const Header: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -83,6 +83,72 @@ const Header: React.FC = () => {
                 >
                   <BookOpen className="h-4 w-4" />
                   <span>{t('cropGuide')}</span>
+                </Button>
+
+                {/* Post Job Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-2"
+                  onClick={() => navigate('/post-job')}
+                >
+                  <Users className="h-4 w-4" />
+                  <span>Post Job</span>
+                </Button>
+
+                {/* My Profile Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-2"
+                  onClick={() => navigate('/farmer-profile')}
+                >
+                  <User className="h-4 w-4" />
+                  <span>My Profile</span>
+                </Button>
+
+                {/* Find Jobs Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-2"
+                  onClick={() => navigate('/labor-marketplace')}
+                >
+                  <Briefcase className="h-4 w-4" />
+                  <span>Find Jobs</span>
+                </Button>
+
+                {/* View Matches Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-2"
+                  onClick={() => navigate('/job-matches')}
+                >
+                  <TrendingUp className="h-4 w-4" />
+                  <span>View Matches</span>
+                </Button>
+
+                {/* Local Labor Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-2"
+                  onClick={() => navigate('/local-labor')}
+                >
+                  <Users className="h-4 w-4" />
+                  <span>Local Labor</span>
+                </Button>
+
+                {/* Marketplace Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-2"
+                  onClick={() => navigate('/marketplace')}
+                >
+                  <ShoppingCart className="h-4 w-4" />
+                  <span>Marketplace</span>
                 </Button>
 
                 {/* Logout Button */}

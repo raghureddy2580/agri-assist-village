@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 import {
   Sprout,
   Mail,
@@ -19,7 +20,7 @@ const Footer = () => {
     { name: "Crop Management", href: "#crops" },
     { name: "Weather Forecast", href: "#weather" },
     { name: "Marketplace", href: "#marketplace" },
-    { name: "Knowledge Hub", href: "#knowledge" }
+    { name: "Knowledge Hub", href: "/knowledge-hub" }
   ];
 
   const supportLinks = [
@@ -98,12 +99,21 @@ const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-muted-foreground hover:text-primary transition-colors duration-200"
-                  >
-                    {link.name}
-                  </a>
+                  {link.name === "Knowledge Hub" ? (
+                    <Link
+                      to={link.href}
+                      className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                    >
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                    >
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>

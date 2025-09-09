@@ -11,6 +11,14 @@ import Login from "./pages/Login";
 import Alerts from "./pages/Alerts";
 import PlantScanner from "./pages/PlantScanner";
 import CropGuide from "./pages/CropGuide";
+import KnowledgeHub from "./pages/KnowledgeHub";
+import JobPosting from "./pages/JobPosting";
+import LaborerProfile from "./pages/LaborerProfile";
+import LaborMarketplace from "./pages/LaborMarketplace";
+import JobMatches from "./pages/JobMatches";
+import FarmerProfile from "./pages/FarmerProfile";
+import LocalLabor from "./pages/LocalLabor";
+import Marketplace from "./pages/Marketplace";
 import NotFound from "./pages/NotFound";
 
 // Protected Route Component
@@ -64,6 +72,42 @@ function App() {
                 <Route path="/crop-guide" element={
                   <ProtectedRoute>
                     <CropGuide />
+                  </ProtectedRoute>
+                } />
+                <Route path="/knowledge-hub" element={<KnowledgeHub />} />
+                <Route path="/post-job" element={
+                  <ProtectedRoute>
+                    <JobPosting />
+                  </ProtectedRoute>
+                } />
+                <Route path="/laborer-profile" element={
+                  <ProtectedRoute>
+                    <LaborerProfile />
+                  </ProtectedRoute>
+                } />
+                <Route path="/labor-marketplace" element={
+                  <ProtectedRoute>
+                    <LaborMarketplace />
+                  </ProtectedRoute>
+                } />
+                <Route path="/job-matches" element={
+                  <ProtectedRoute>
+                    <JobMatches />
+                  </ProtectedRoute>
+                } />
+                <Route path="/farmer-profile" element={
+                  <ProtectedRoute>
+                    <FarmerProfile />
+                  </ProtectedRoute>
+                } />
+                <Route path="/local-labor" element={
+                  <ProtectedRoute>
+                    <LocalLabor />
+                  </ProtectedRoute>
+                } />
+                <Route path="/marketplace" element={
+                  <ProtectedRoute>
+                    <Marketplace />
                   </ProtectedRoute>
                 } />
                 {/* Fallback route */}

@@ -24,8 +24,8 @@ const FeatureCards = () => {
       description: "Find and hire skilled farm workers quickly. Post job requirements, review profiles, and connect with available labours in your area.",
       color: "text-primary",
       bgColor: "bg-primary/10",
-      actionText: "Find Workers",
-      href: "https://www.movierulz.in"
+      actionText: "Post Job",
+      href: "/post-job"
     },
     {
       icon: Leaf,
@@ -51,7 +51,8 @@ const FeatureCards = () => {
       description: "Connect directly with buyers and suppliers. List your produce, negotiate prices, and eliminate middlemen costs.",
       color: "text-warning",
       bgColor: "bg-warning/10",
-      actionText: "Visit Market"
+      actionText: "Visit Market",
+      href: "/marketplace"
     },
     {
       icon: BookOpen,
@@ -59,7 +60,8 @@ const FeatureCards = () => {
       description: "Access comprehensive farming guides, video tutorials, and expert advice on sustainable agriculture practices.",
       color: "text-purple-600",
       bgColor: "bg-purple-100",
-      actionText: "Learn More"
+      actionText: "Learn More",
+      href: "/knowledge-hub"
     },
     {
       icon: Bell,
@@ -142,30 +144,30 @@ const FeatureCards = () => {
           <div className="text-center">
             <div className="flex items-center justify-center mb-2">
               <Briefcase className="h-5 w-5 text-primary mr-2" />
-              <span className="text-2xl font-bold text-foreground">2,500+</span>
+              <span className="text-2xl font-bold text-foreground">150+</span>
             </div>
             <p className="text-sm text-muted-foreground font-medium">Jobs Posted</p>
           </div>
           <div className="text-center">
             <div className="flex items-center justify-center mb-2">
               <Bug className="h-5 w-5 text-success mr-2" />
-              <span className="text-2xl font-bold text-foreground">98%</span>
+              <span className="text-2xl font-bold text-foreground">80%</span>
             </div>
             <p className="text-sm text-muted-foreground font-medium">Pest Detection Rate</p>
           </div>
           <div className="text-center">
             <div className="flex items-center justify-center mb-2">
               <DollarSign className="h-5 w-5 text-warning mr-2" />
-              <span className="text-2xl font-bold text-foreground">$2M+</span>
+              <span className="text-2xl font-bold text-foreground">₹50K+</span>
             </div>
-            <p className="text-sm text-muted-foreground font-medium">Trade Volume</p>
+            <p className="text-sm text-muted-foreground font-medium">Monthly Trade Volume</p>
           </div>
           <div className="text-center">
             <div className="flex items-center justify-center mb-2">
               <BookOpen className="h-5 w-5 text-purple-600 mr-2" />
-              <span className="text-2xl font-bold text-foreground">500+</span>
+              <span className="text-2xl font-bold text-foreground">25+</span>
             </div>
-            <p className="text-sm text-muted-foreground font-medium">Learning Resources</p>
+            <p className="text-sm text-muted-foreground font-medium">Crop Guides</p>
           </div>
         </div>
       </div>
