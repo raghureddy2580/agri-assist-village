@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>student Regitration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>University Student Registration Form</h1>
+
+    <form action="#" method="POST" enctype="multipart/form-data">
+        <table class="bg-light">
+            <tr>
+                <td><label for="firstname">First Name:</label></td>
+                <td><input type="text" id="firstname" name="firstname" required placeholder="Enter your first name">
+                </td>
+            </tr>
+            <tr>
+                <td><label for="lastname">Last Name:</label></td>
+                <td><input type="text" id="lastname" name="lastname" required placeholder="Enter your last name"></td>
+            </tr>
+            <tr>
+                <td><label for="email">Email Address:</label></td>
+                <td><input type="email" id="email" name="email" required placeholder="Enter a 
+valid email address"></td>
+            </tr>
+            <tr>
+                <td><label for="phone">Phone Number:</label></td>
+                <td><input type="number" id="phone" name="phone" required placeholder="Enter 
+your phone number" min="1000000000" max="9999999999"></td>
+            </tr>
+            <tr>
+                <td><label for="password">Password:</label></td>
+                <td><input type="password" id="password" name="password" required placeholder="Create a password"
+                        minlength="8"></td>
+            </tr>
+            <tr>
+                <td><label for="confirmpassword">Confirm Password:</label></td>
+                <td><input type="password" id="confirmpassword" name="confirmpassword" required
+                        placeholder="Confirm your password" minlength="8"></td>
+            </tr>
+            <tr class="highlight">
+                <td><label for="program">Select Program:</label></td>
+                <td>
+                    <select id="program" name="program" required>
+                        <option value="">--Select Program--</option>
+                        <option value="B.Sc Computer Science">B.Sc in Computer Science</option>
+                        <option value="BBA">BBA</option>
+                        <option value="B.Com">B.Com</option>
+                        <option value="B.A.">B.A.</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="gender">Gender:</label></td>
+                <td>
+                    <input type="radio" id="male" name="gender" value="Male" required>
+                    <label for="male">Male</label>
+                    <input type="radio" id="female" name="gender" value="Female" required>
+                    <label for="female">Female</label>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="address">Address:</label></td>
+                <td><textarea id="address" name="address" rows="4" required placeholder="Enter 
+your address"></textarea></td>
+            </tr>
+            <tr class="highlight">
+                <td><label for="dob">Date of Birth:</label></td>
+                <td><input type="date" id="dob" name="dob" required></td>
+            </tr>
+            <tr>
+                <td><label for="nationality">Nationality:</label></td>
+                <td><input type="text" id="nationality" name="nationality" required
+                        placeholder="Enter your nationality"></td>
+            </tr>
+            <tr>
+                <td><label for="photo">Upload Photo:</label></td>
+                <td><input type="file" id="photo" name="photo" accept="image/*" required></td>
+            </tr>
+            <tr>
+                <td><label for="website">Personal Website (Optional):</label></td>
+                <td><input type="url" id="website" name="website" placeholder="Enter your 
+personal website URL (optional)"></td>
+            </tr>
+            <tr>
+                <td><label for="newsletter">Subscribe to Newsletter:</label></td>
+                <td><input type="checkbox" id="newsletter" name="newsletter" value="yes"> Yes,
+                    I would like to receive the newsletter.</td>
+            </tr>
+            <tr>
+                <td><label for="terms">Agree to Terms and Conditions:</label></td>
+                <td><input type="checkbox" id="terms" name="terms" required> I agree to the terms and conditions.</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td><input type="submit" value="Submit"></td>
+                <td><input type="reset" value="Reset"></td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+
+</html>
+
+</body>
+
+</html>
