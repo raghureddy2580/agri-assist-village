@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
 import { cropDatabase } from '@/lib/cropDatabase';
+import { getActiveProduceListings, ProduceListing } from '@/lib/produceStorage';
 import {
     ShoppingCart,
     MapPin,
@@ -152,8 +153,8 @@ const Marketplace: React.FC = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    const [listings, setListings] = useState(mockListings);
-    const [filteredListings, setFilteredListings] = useState(mockListings);
+    const [listings, setListings] = useState<ProduceListing[]>([]);
+    const [filteredListings, setFilteredListings] = useState<ProduceListing[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [filters, setFilters] = useState({
         crop: '',
@@ -194,9 +195,9 @@ const Marketplace: React.FC = () => {
             const query = searchQuery.toLowerCase();
             filtered = filtered.filter(listing =>
                 listing.cropName.toLowerCase().includes(query) ||
-                listing.farmerName.toLowerCase().includes(query) ||
+                listing.userName.toLowerCase().includes(query) ||
                 listing.description.toLowerCase().includes(query) ||
-                listing.farmerLocation.toLowerCase().includes(query)
+                `${listing.village}, ${listing.district}, ${listing.state}`.toLowerCase().includes(query)
             );
         }
 
@@ -208,7 +209,7 @@ const Marketplace: React.FC = () => {
         // Location filter
         if (filters.location) {
             filtered = filtered.filter(listing =>
-                listing.farmerLocation.toLowerCase().includes(filters.location.toLowerCase())
+                `${listing.village}, ${listing.district}, ${listing.state}`.toLowerCase().includes(filters.location.toLowerCase())
             );
         }
 
@@ -486,7 +487,7 @@ const Marketplace: React.FC = () => {
                                             <div className="space-y-2 mb-4">
                                                 <div className="flex items-center space-x-2 text-sm">
                                                     <MapPin className="h-4 w-4 text-muted-foreground" />
-                                                    <span>{listing.farmerLocation}</span>
+                                                    <span>{`${listing.village}, ${listing.district}, ${listing.state}`}</span>
                                                 </div>
 
                                                 <div className="flex items-center space-x-2 text-sm">
@@ -508,7 +509,7 @@ const Marketplace: React.FC = () => {
                                             </p>
 
                                             <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
-                                                <span>By {listing.farmerName}</span>
+                                                <span>By {listing.userName}</span>
                                                 <span className="text-orange-600">
                                                     {getDaysLeft(listing.availableUntil)}
                                                 </span>
@@ -524,20 +525,20 @@ const Marketplace: React.FC = () => {
                                                     </DialogTrigger>
                                                     <DialogContent>
                                                         <DialogHeader>
-                                                            <DialogTitle>Contact {listing.farmerName}</DialogTitle>
+                                                            <DialogTitle>Contact {listing.userName}</DialogTitle>
                                                         </DialogHeader>
                                                         <div className="space-y-4">
                                                             <div className="p-4 bg-gray-50 rounded-lg">
                                                                 <h4 className="font-medium mb-2">Farmer Details</h4>
-                                                                <p className="text-sm"><strong>Name:</strong> {listing.farmerName}</p>
-                                                                <p className="text-sm"><strong>Location:</strong> {listing.farmerLocation}</p>
+                                                                <p className="text-sm"><strong>Name:</strong> {listing.userName}</p>
+                                                                <p className="text-sm"><strong>Location:</strong> {`${listing.village}, ${listing.district}, ${listing.state}`}</p>
                                                                 <p className="text-sm"><strong>Crop:</strong> {listing.cropName} ({listing.quantity} {listing.unit})</p>
                                                                 <p className="text-sm"><strong>Price:</strong> ₹{listing.pricePerUnit}/{listing.unit}</p>
                                                             </div>
                                                             <div className="p-4 bg-blue-50 rounded-lg">
                                                                 <h4 className="font-medium mb-2">Contact Information</h4>
-                                                                <p className="text-sm"><strong>Phone:</strong> {listing.farmerPhone}</p>
-                                                                <p className="text-sm"><strong>Email:</strong> {listing.farmerEmail}</p>
+                                                                <p className="text-sm"><strong>Phone:</strong> {listing.userPhone}</p>
+                                                                <p className="text-sm"><strong>Email:</strong> {listing.userEmail}</p>
                                                             </div>
                                                             <div className="p-4 bg-green-50 rounded-lg">
                                                                 <h4 className="font-medium mb-2">Product Details</h4>

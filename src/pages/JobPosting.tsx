@@ -10,6 +10,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
 import { MapPin, Clock, DollarSign, Users, Briefcase } from 'lucide-react';
+import { saveJobPosting } from '@/lib/jobStorage';
+import type { JobPosting as JobPostingType } from '@/lib/jobStorage';
 
 const JobPosting: React.FC = () => {
     const { user } = useAuth();
@@ -104,12 +106,24 @@ const JobPosting: React.FC = () => {
 
         if (!validateForm()) return;
 
-        // Here you would typically send the data to your backend
-        console.log('Job posting data:', formData);
+        try {
+            // Save job posting to localStorage
+            const jobPosting = saveJobPosting({
+                userId: user?.id || 'unknown',
+                userName: user?.name || 'Unknown User',
+                userEmail: user?.email || 'unknown@email.com',
+                ...formData,
+            });
 
-        // For now, just show success and navigate back
-        alert('Job posted successfully!');
-        navigate('/labor-marketplace');
+            // Show success message with job ID
+            alert(`Job posted successfully!\nJob ID: ${jobPosting.id}\n\nCheck browser console for details.`);
+            
+            // Navigate back to marketplace
+            navigate('/labor-marketplace');
+        } catch (error) {
+            console.error('Error posting job:', error);
+            alert('Failed to post job. Please try again.');
+        }
     };
 
     if (!user) {

@@ -30,7 +30,14 @@ interface PlantIdentification {
     alternatives: string[];
 }
 
-const PlantScanner: React.FC = () => {
+interface CropIssue {
+    diseaseId?: string;
+    pestId?: string;
+    description: string;
+    severity: 'low' | 'medium' | 'high' | 'critical';
+}
+
+const PlantScanner: React.FC<{}> = () => {
     const { user } = useAuth();
     const { showToast } = useToast();
     const { t } = useLanguage();
@@ -135,7 +142,7 @@ const PlantScanner: React.FC = () => {
             // Simulate API call to advanced image recognition service
             await new Promise(resolve => setTimeout(resolve, 3500));
 
-            // Enhanced mock analysis with 80%+ accuracy
+            // Enhanced mock analysis with all crops from database and 80%+ accuracy
             const enhancedResults = [
                 {
                     cropId: 'tomato',
@@ -162,12 +169,28 @@ const PlantScanner: React.FC = () => {
                     plantImage: '🌾'
                 },
                 {
+                    cropId: 'maize',
+                    pestId: 'stem_borer_maize',
+                    confidence: 88,
+                    description: 'Stem borer damage detected in maize plants with dead hearts',
+                    severity: 'medium' as const,
+                    plantImage: '🌽'
+                },
+                {
+                    cropId: 'sugarcane',
+                    pestId: 'borer_sugarcane',
+                    confidence: 85,
+                    description: 'Sugarcane borer infestation detected with holes in cane',
+                    severity: 'high' as const,
+                    plantImage: '🎋'
+                },
+                {
                     cropId: 'cotton',
                     pestId: 'bollworm',
                     confidence: 89,
                     description: 'Pink bollworm damage detected in cotton bolls',
                     severity: 'high' as const,
-                    plantImage: '🌱'
+                    plantImage: '☁️'
                 },
                 {
                     cropId: 'potato',
@@ -176,6 +199,54 @@ const PlantScanner: React.FC = () => {
                     description: 'Late blight infection with water-soaked lesions on potato tubers',
                     severity: 'critical' as const,
                     plantImage: '🥔'
+                },
+                {
+                    cropId: 'onion',
+                    diseaseId: 'purple_blotch',
+                    confidence: 83,
+                    description: 'Purple blotch disease detected on onion leaves',
+                    severity: 'medium' as const,
+                    plantImage: '🧅'
+                },
+                {
+                    cropId: 'chickpea',
+                    diseaseId: 'fusarium_wilt_chickpea',
+                    confidence: 82,
+                    description: 'Fusarium wilt symptoms detected in chickpea plants',
+                    severity: 'high' as const,
+                    plantImage: '🫘'
+                },
+                {
+                    cropId: 'groundnut',
+                    pestId: 'aphid_groundnut',
+                    confidence: 85,
+                    description: 'Aphid infestation detected on groundnut plants',
+                    severity: 'medium' as const,
+                    plantImage: '🥜'
+                },
+                {
+                    cropId: 'mango',
+                    diseaseId: 'powdery_mildew_mango',
+                    confidence: 87,
+                    description: 'Powdery mildew detected on mango leaves',
+                    severity: 'medium' as const,
+                    plantImage: '🥭'
+                },
+                {
+                    cropId: 'chili',
+                    diseaseId: 'fruit_rot_chili',
+                    confidence: 84,
+                    description: 'Fruit rot detected on chili plants',
+                    severity: 'high' as const,
+                    plantImage: '🌶️'
+                },
+                {
+                    cropId: 'coffee',
+                    diseaseId: 'coffee_rust',
+                    confidence: 89,
+                    description: 'Coffee rust infection detected on coffee leaves',
+                    severity: 'high' as const,
+                    plantImage: '☕'
                 }
             ];
 
@@ -185,10 +256,36 @@ const PlantScanner: React.FC = () => {
             // Create plant identification for user confirmation
             const crop = getCropById(selectedResult.cropId);
             if (crop) {
+                // Get all available crops from database for better identification
+                const allCrops = [
+                    'tomato', 'rice', 'wheat', 'maize', 'sugarcane', 'cotton',
+                    'potato', 'onion', 'chickpea', 'groundnut', 'mango', 'chili', 'coffee'
+                ];
+
+                // Generate more realistic alternatives based on crop characteristics
+                const cropCharacteristics = {
+                    tomato: ['potato', 'chili', 'onion'],
+                    rice: ['wheat', 'maize', 'sugarcane'],
+                    wheat: ['rice', 'maize', 'barley'],
+                    maize: ['rice', 'wheat', 'sugarcane'],
+                    sugarcane: ['maize', 'rice', 'sorghum'],
+                    cotton: ['okra', 'tomato', 'chili'],
+                    potato: ['tomato', 'onion', 'sweet_potato'],
+                    onion: ['garlic', 'chili', 'tomato'],
+                    chickpea: ['lentil', 'pea', 'bean'],
+                    groundnut: ['soybean', 'pea', 'bean'],
+                    mango: ['guava', 'orange', 'lemon'],
+                    chili: ['tomato', 'onion', 'eggplant'],
+                    coffee: ['tea', 'cocoa', 'rubber']
+                };
+
+                const alternatives = cropCharacteristics[selectedResult.cropId as keyof typeof cropCharacteristics] ||
+                    allCrops.filter(c => c !== selectedResult.cropId).slice(0, 3);
+
                 const identification: PlantIdentification = {
                     detectedCrop: selectedResult.cropId,
                     confidence: selectedResult.confidence,
-                    alternatives: ['rice', 'wheat', 'cotton', 'potato', 'tomato'].filter(c => c !== selectedResult.cropId).slice(0, 3)
+                    alternatives: alternatives.slice(0, 3)
                 };
 
                 setPlantIdentification(identification);
@@ -440,11 +537,14 @@ const PlantScanner: React.FC = () => {
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value={plantIdentification.detectedCrop}>
-                                                {getCropById(plantIdentification.detectedCrop)?.name} (Detected)
+                                                {getCropById(plantIdentification.detectedCrop)?.name} (Detected - {plantIdentification.confidence}% confidence)
                                             </SelectItem>
-                                            {plantIdentification.alternatives.map(alt => (
-                                                <SelectItem key={alt} value={alt}>
-                                                    {getCropById(alt)?.name}
+                                            {[
+                                                'tomato', 'rice', 'wheat', 'maize', 'sugarcane', 'cotton',
+                                                'potato', 'onion', 'chickpea', 'groundnut', 'mango', 'chili', 'coffee'
+                                            ].filter(cropId => cropId !== plantIdentification.detectedCrop).map(cropId => (
+                                                <SelectItem key={cropId} value={cropId}>
+                                                    {getCropById(cropId)?.name}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -636,69 +736,260 @@ const PlantScanner: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    {scanResult.recommendations.length > 0 && (
-                                        <div>
-                                            <div className="flex items-center justify-between mb-3">
-                                                <h3 className="font-semibold">Recommended Treatments</h3>
-                                                <div className="flex items-center space-x-1 text-xs text-muted-foreground">
-                                                    <MapPin className="h-3 w-3" />
-                                                    <span>Available in {userLocation || 'your area'}</span>
+                                    {/* Comprehensive Treatment Recommendations */}
+                                    <div>
+                                        <h3 className="font-semibold mb-4">Comprehensive Treatment Recommendations</h3>
+
+                                        {/* Chemical Treatments */}
+                                        {scanResult.recommendations.length > 0 && (
+                                            <div className="mb-6">
+                                                <div className="flex items-center justify-between mb-3">
+                                                    <h4 className="font-medium text-lg flex items-center">
+                                                        <AlertTriangle className="h-4 w-4 mr-2 text-orange-600" />
+                                                        Chemical Treatments
+                                                    </h4>
+                                                    <div className="flex items-center space-x-1 text-xs text-muted-foreground">
+                                                        <MapPin className="h-3 w-3" />
+                                                        <span>Available in {userLocation || 'your area'}</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="space-y-3">
-                                                {scanResult.recommendations.map((pesticide) => (
-                                                    <div key={pesticide.id} className="border rounded-lg p-4 bg-gradient-to-r from-green-50 to-blue-50">
-                                                        <div className="flex items-start space-x-3">
-                                                            {/* Pesticide Image */}
-                                                            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border">
-                                                                <ImageIcon className="h-6 w-6 text-green-600" />
-                                                            </div>
-
-                                                            <div className="flex-1">
-                                                                <div className="flex justify-between items-start mb-2">
-                                                                    <div>
-                                                                        <h4 className="font-medium text-green-800">{pesticide.name}</h4>
-                                                                        <p className="text-xs text-green-600">{pesticide.activeIngredient}</p>
-                                                                    </div>
-                                                                    <Badge variant="outline" className="bg-white">₹{pesticide.price}</Badge>
+                                                <div className="space-y-3">
+                                                    {scanResult.recommendations.map((pesticide) => (
+                                                        <div key={pesticide.id} className="border rounded-lg p-4 bg-gradient-to-r from-orange-50 to-red-50">
+                                                            <div className="flex items-start space-x-3">
+                                                                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border">
+                                                                    <ImageIcon className="h-6 w-6 text-orange-600" />
                                                                 </div>
 
-                                                                <div className="grid grid-cols-2 gap-2 text-xs mb-3">
-                                                                    <div>
-                                                                        <span className="font-medium">Type:</span> {pesticide.type}
+                                                                <div className="flex-1">
+                                                                    <div className="flex justify-between items-start mb-2">
+                                                                        <div>
+                                                                            <h4 className="font-medium text-orange-800">{pesticide.name}</h4>
+                                                                            <p className="text-xs text-orange-600">{pesticide.activeIngredient}</p>
+                                                                        </div>
+                                                                        <Badge variant="outline" className="bg-white">₹{pesticide.price}</Badge>
                                                                     </div>
-                                                                    <div>
-                                                                        <span className="font-medium">Dosage:</span> {pesticide.dosage}
-                                                                    </div>
-                                                                    <div className="col-span-2">
-                                                                        <span className="font-medium">Application:</span> {pesticide.application}
-                                                                    </div>
-                                                                </div>
 
-                                                                <div className="flex items-center justify-between">
-                                                                    <div className="flex items-center space-x-1 text-xs text-green-700">
-                                                                        <CheckCircle className="h-3 w-3" />
-                                                                        <span>Available locally</span>
+                                                                    <div className="grid grid-cols-2 gap-2 text-xs mb-3">
+                                                                        <div>
+                                                                            <span className="font-medium">Type:</span> {pesticide.type}
+                                                                        </div>
+                                                                        <div>
+                                                                            <span className="font-medium">Dosage:</span> {pesticide.dosage}
+                                                                        </div>
+                                                                        <div>
+                                                                            <span className="font-medium">Safety:</span>
+                                                                            <span className={`ml-1 px-1 py-0.5 rounded text-xs ${pesticide.safety === 'low' ? 'bg-green-100 text-green-800' :
+                                                                                pesticide.safety === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                                                                                    'bg-red-100 text-red-800'
+                                                                                }`}>
+                                                                                {pesticide.safety}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <span className="font-medium">Environment:</span>
+                                                                            <span className={`ml-1 px-1 py-0.5 rounded text-xs ${pesticide.environmental === 'eco_friendly' ? 'bg-green-100 text-green-800' :
+                                                                                pesticide.environmental === 'moderate' ? 'bg-yellow-100 text-yellow-800' :
+                                                                                    'bg-red-100 text-red-800'
+                                                                                }`}>
+                                                                                {pesticide.environmental.replace('_', ' ')}
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
-                                                                    <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                                                                        <ShoppingCart className="h-3 w-3 mr-1" />
-                                                                        Add to Cart
-                                                                    </Button>
+
+                                                                    <div className="mb-3">
+                                                                        <p className="text-xs text-gray-600">
+                                                                            <strong>Application:</strong> {pesticide.application}
+                                                                        </p>
+                                                                        <p className="text-xs text-gray-600 mt-1">
+                                                                            <strong>Availability:</strong> {pesticide.availability.replace('_', ' ')}
+                                                                        </p>
+                                                                    </div>
+
+                                                                    <div className="flex items-center justify-between">
+                                                                        <div className="flex items-center space-x-1 text-xs text-orange-700">
+                                                                            <CheckCircle className="h-3 w-3" />
+                                                                            <span>Available locally</span>
+                                                                        </div>
+                                                                        <Button size="sm" className="bg-orange-600 hover:bg-orange-700">
+                                                                            <ShoppingCart className="h-3 w-3 mr-1" />
+                                                                            Add to Cart
+                                                                        </Button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                ))}
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Alternative Treatment Methods */}
+                                        <div className="space-y-4">
+                                            {/* Organic Treatments */}
+                                            <div className="border rounded-lg p-4 bg-gradient-to-r from-green-50 to-emerald-50">
+                                                <h4 className="font-medium text-lg mb-3 flex items-center">
+                                                    <CheckCircle className="h-4 w-4 mr-2 text-green-600" />
+                                                    Organic & Biological Treatments
+                                                </h4>
+                                                <div className="space-y-2">
+                                                    {(() => {
+                                                        const crop = getCropById(scanResult.cropId);
+                                                        const disease = scanResult.diseaseId ? crop?.diseases.find(d => d.id === scanResult.diseaseId) : null;
+                                                        const pest = scanResult.pestId ? crop?.pests.find(p => p.id === scanResult.pestId) : null;
+
+                                                        const organicTreatments = [];
+
+                                                        if (disease) {
+                                                            // Add organic treatments from disease data
+                                                            disease.treatment.forEach(treatment => {
+                                                                if (treatment.method === 'organic' || treatment.method === 'biological') {
+                                                                    organicTreatments.push({
+                                                                        method: treatment.method,
+                                                                        instructions: treatment.instructions,
+                                                                        timing: treatment.timing
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
+
+                                                        if (pest && pest.naturalControl.length > 0) {
+                                                            organicTreatments.push({
+                                                                method: 'biological',
+                                                                instructions: `Use natural predators: ${pest.naturalControl.join(', ')}`,
+                                                                timing: 'Throughout growing season'
+                                                            });
+                                                        }
+
+                                                        return organicTreatments.length > 0 ? (
+                                                            organicTreatments.map((treatment, index) => (
+                                                                <div key={index} className="bg-white rounded p-3 border">
+                                                                    <div className="flex items-start space-x-2">
+                                                                        <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                                                                        <div className="flex-1">
+                                                                            <p className="text-sm font-medium text-green-800 capitalize">{treatment.method} Control</p>
+                                                                            <p className="text-xs text-green-700 mt-1">{treatment.instructions}</p>
+                                                                            <p className="text-xs text-green-600 mt-1"><strong>Timing:</strong> {treatment.timing}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ))
+                                                        ) : (
+                                                            <p className="text-sm text-green-700">No specific organic treatments available for this issue.</p>
+                                                        );
+                                                    })()}
+                                                </div>
                                             </div>
 
-                                            {scanResult.recommendations.length === 0 && (
-                                                <div className="text-center py-4 text-muted-foreground">
-                                                    <Info className="h-8 w-8 mx-auto mb-2" />
-                                                    <p>No pesticides available in your location. Please check nearby cities or contact local dealers.</p>
+                                            {/* Cultural & Preventive Measures */}
+                                            <div className="border rounded-lg p-4 bg-gradient-to-r from-blue-50 to-indigo-50">
+                                                <h4 className="font-medium text-lg mb-3 flex items-center">
+                                                    <Info className="h-4 w-4 mr-2 text-blue-600" />
+                                                    Cultural Control & Prevention
+                                                </h4>
+                                                <div className="space-y-2">
+                                                    {(() => {
+                                                        const crop = getCropById(scanResult.cropId);
+                                                        const disease = scanResult.diseaseId ? crop?.diseases.find(d => d.id === scanResult.diseaseId) : null;
+                                                        const pest = scanResult.pestId ? crop?.pests.find(p => p.id === scanResult.pestId) : null;
+
+                                                        const preventiveMeasures = [];
+
+                                                        if (disease && disease.prevention.length > 0) {
+                                                            preventiveMeasures.push(...disease.prevention.map(measure => ({
+                                                                type: 'Disease Prevention',
+                                                                measure: measure
+                                                            })));
+                                                        }
+
+                                                        if (pest && pest.damage.length > 0) {
+                                                            preventiveMeasures.push({
+                                                                type: 'Pest Monitoring',
+                                                                measure: 'Regular field scouting and early detection'
+                                                            });
+                                                        }
+
+                                                        // Add general preventive measures
+                                                        preventiveMeasures.push(
+                                                            {
+                                                                type: 'Field Sanitation',
+                                                                measure: 'Remove and destroy infected plant debris'
+                                                            },
+                                                            {
+                                                                type: 'Crop Rotation',
+                                                                measure: 'Practice crop rotation to break disease cycles'
+                                                            },
+                                                            {
+                                                                type: 'Water Management',
+                                                                measure: 'Avoid overhead irrigation to reduce humidity'
+                                                            }
+                                                        );
+
+                                                        return preventiveMeasures.map((item, index) => (
+                                                            <div key={index} className="bg-white rounded p-3 border">
+                                                                <div className="flex items-start space-x-2">
+                                                                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                                                                    <div className="flex-1">
+                                                                        <p className="text-sm font-medium text-blue-800">{item.type}</p>
+                                                                        <p className="text-xs text-blue-700 mt-1">{item.measure}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ));
+                                                    })()}
                                                 </div>
-                                            )}
+                                            </div>
+
+                                            {/* Treatment Guidelines */}
+                                            <div className="border rounded-lg p-4 bg-gradient-to-r from-purple-50 to-pink-50">
+                                                <h4 className="font-medium text-lg mb-3 flex items-center">
+                                                    <AlertTriangle className="h-4 w-4 mr-2 text-purple-600" />
+                                                    Application Guidelines & Safety
+                                                </h4>
+                                                <div className="space-y-3">
+                                                    <div className="bg-white rounded p-3 border">
+                                                        <h5 className="font-medium text-purple-800 mb-2">Safety Precautions</h5>
+                                                        <ul className="text-xs text-purple-700 space-y-1">
+                                                            <li>• Wear protective clothing, gloves, and masks during application</li>
+                                                            <li>• Apply during early morning or late evening to minimize evaporation</li>
+                                                            <li>• Keep children and pets away from treated areas</li>
+                                                            <li>• Store pesticides in cool, dry place away from food items</li>
+                                                            <li>• Dispose of empty containers properly</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div className="bg-white rounded p-3 border">
+                                                        <h5 className="font-medium text-purple-800 mb-2">Application Best Practices</h5>
+                                                        <ul className="text-xs text-purple-700 space-y-1">
+                                                            <li>• Calibrate sprayers regularly for accurate dosage</li>
+                                                            <li>• Apply when weather is calm to avoid drift</li>
+                                                            <li>• Ensure complete coverage of target area</li>
+                                                            <li>• Follow recommended waiting periods before harvest</li>
+                                                            <li>• Rotate different types of pesticides to prevent resistance</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div className="bg-white rounded p-3 border">
+                                                        <h5 className="font-medium text-purple-800 mb-2">Monitoring & Follow-up</h5>
+                                                        <ul className="text-xs text-purple-700 space-y-1">
+                                                            <li>• Monitor plants 3-5 days after treatment for effectiveness</li>
+                                                            <li>• Keep records of treatments applied and their results</li>
+                                                            <li>• Reapply if symptoms persist after waiting period</li>
+                                                            <li>• Consult local agricultural extension for specific recommendations</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    )}
+
+                                        {scanResult.recommendations.length === 0 && (
+                                            <div className="text-center py-4 text-muted-foreground bg-gray-50 rounded-lg">
+                                                <Info className="h-8 w-8 mx-auto mb-2" />
+                                                <p className="mb-2">No chemical pesticides available in your location.</p>
+                                                <p className="text-sm">Focus on organic and cultural control methods above, or check nearby cities for availability.</p>
+                                            </div>
+                                        )}
+                                    </div>
 
                                     <div className="bg-blue-50 p-3 rounded-lg">
                                         <p className="text-sm text-blue-800">

@@ -104,3 +104,15 @@ export const sendFarmingAlertSMS = async (phoneNumber: string, alert: any): Prom
         return null;
     }
 };
+
+// Send weather alert via SMS
+export const sendWeatherAlertSMS = async (phoneNumber: string, reason: string, severity: 'light' | 'moderate' | 'heavy'): Promise<SMSMessage | null> => {
+    try {
+        const icon = severity === 'heavy' ? '🌧️' : severity === 'moderate' ? '🌦️' : '☔';
+        const message = `${icon} Weather Alert: ${reason}\nStay safe and protect your crops!`;
+        return await smsService.sendSMS(phoneNumber, message, `weather_${Date.now()}`);
+    } catch (error) {
+        console.error('Failed to send weather alert SMS:', error);
+        return null;
+    }
+};

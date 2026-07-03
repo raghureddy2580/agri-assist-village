@@ -53,15 +53,15 @@ const HeroSection = () => {
                   Watch Demo
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-4xl w-full p-0">
-                <DialogHeader className="p-6 pb-0">
-                  <DialogTitle className="text-xl font-bold">Smart Agriculture Platform Demo</DialogTitle>
+              <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] p-0 mx-4">
+                <DialogHeader className="p-4 pb-0 sm:p-6 sm:pb-0">
+                  <DialogTitle className="text-lg sm:text-xl font-bold">Smart Agriculture Platform Demo</DialogTitle>
                 </DialogHeader>
-                <div className="relative w-full aspect-video">
+                <div className="relative w-full aspect-video px-0">
                   <iframe
                     width="100%"
                     height="100%"
-                    src="https://www.youtube.com/embed/2V8t7bSnadM?autoplay=1"
+                    src="https://www.youtube.com/embed/heTxEsrPVdQ?autoplay=1"
                     title="Smart Agriculture Platform Demo"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

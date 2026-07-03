@@ -4,6 +4,7 @@ import { CartProvider } from "./contexts/CartContext";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { ToastProvider } from "./components/Toast";
+import DeveloperDebugPanel from "./components/DeveloperDebugPanel";
 import Index from "./pages/Index";
 import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
@@ -19,6 +20,7 @@ import JobMatches from "./pages/JobMatches";
 import FarmerProfile from "./pages/FarmerProfile";
 import LocalLabor from "./pages/LocalLabor";
 import Marketplace from "./pages/Marketplace";
+import AddListing from "./pages/AddListing";
 import NotFound from "./pages/NotFound";
 
 // Protected Route Component
@@ -46,6 +48,7 @@ function App() {
         <AuthProvider>
           <CartProvider>
             <Router>
+              <DeveloperDebugPanel />
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<Index />} />
@@ -108,6 +111,11 @@ function App() {
                 <Route path="/marketplace" element={
                   <ProtectedRoute>
                     <Marketplace />
+                  </ProtectedRoute>
+                } />
+                <Route path="/add-listing" element={
+                  <ProtectedRoute>
+                    <AddListing />
                   </ProtectedRoute>
                 } />
                 {/* Fallback route */}

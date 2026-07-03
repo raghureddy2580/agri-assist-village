@@ -12,7 +12,15 @@ import Header from '@/components/Header';
 import { getCurrentWeather, WeatherData } from '@/lib/weatherService';
 import { generateFarmingAlerts, getAlertPreferences, saveAlertPreferences, FarmingAlert, AlertPreferences } from '@/lib/farmingAlerts';
 import { smsService, SMSMessage } from '@/lib/smsService';
-import { Bell, AlertTriangle, Info, AlertCircle, Settings, CloudRain, Thermometer, Wind, Droplets, Phone, MessageSquare, CheckCircle, XCircle } from 'lucide-react';
+import {
+    getAlarmSettings,
+    saveAlarmSettings,
+    shouldTriggerAlarm,
+    triggerWeatherAlarm,
+    logAlarmActivity,
+    type AlarmSettings
+} from '@/lib/weatherAlarm';
+import { Bell, AlertTriangle, Info, AlertCircle, Settings, CloudRain, Thermometer, Wind, Droplets, Phone, MessageSquare, CheckCircle, XCircle, Volume2, VolumeX } from 'lucide-react';
 
 const Alerts: React.FC = () => {
     const { user } = useAuth();
@@ -33,14 +41,27 @@ const Alerts: React.FC = () => {
         smsEnabled: true,
         emailEnabled: true
     });
+    const [alarmSettings, setAlarmSettings] = useState<AlarmSettings>({
+        enabled: true,
+        rainyWeatherAlarm: true,
+        heavyRainThreshold: 5,
+        volume: 0.7,
+        soundEnabled: true,
+        smsEnabled: false,
+    });
+    const [alarmActive, setAlarmActive] = useState(false);
+    const [alarmReason, setAlarmReason] = useState('');
     const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState('tips');
 
-    // Load user preferences on component mount
+    // Load user preferences and alarm settings on component mount
     useEffect(() => {
         if (user?.id) {
             const userPrefs = getAlertPreferences(user.id);
             setPreferences(userPrefs);
+
+            const userAlarmSettings = getAlarmSettings(user.id);
+            setAlarmSettings(userAlarmSettings);
         }
     }, [user]);
 
@@ -57,6 +78,39 @@ const Alerts: React.FC = () => {
             setWeatherData(weather);
             const tips = generateFarmingTips(weather);
             setFarmingTips(tips);
+
+            // Check if alarm should be triggered
+            if (user?.id) {
+                const alarmCheck = shouldTriggerAlarm(weather, alarmSettings);
+                if (alarmCheck.trigger) {
+                    setAlarmActive(true);
+                    setAlarmReason(alarmCheck.reason);
+
+                    // Trigger alarm sound and notification
+                    await triggerWeatherAlarm(alarmCheck.reason, alarmCheck.severity, alarmSettings, user?.phone);
+
+                    // Log the alarm
+                    logAlarmActivity('triggered', {
+                        reason: alarmCheck.reason,
+                        severity: alarmCheck.severity,
+                        weather: {
+                            precipitation: weather.precipitation,
+                            condition: weather.condition,
+                        },
+                    });
+
+                    // Show toast notification
+                    showToast({
+                        type: 'error',
+                        title: '🌧️ Rainy Weather Alert!',
+                        message: alarmCheck.reason,
+                        duration: 5000,
+                    });
+                } else {
+                    setAlarmActive(false);
+                    setAlarmReason('');
+                }
+            }
         } catch (error) {
             console.error('Failed to load weather data:', error);
         }
@@ -100,6 +154,33 @@ const Alerts: React.FC = () => {
                 duration: 2000
             });
         }
+    };
+
+    const handleAlarmSettingChange = (key: keyof AlarmSettings, value: boolean | number) => {
+        const newSettings = { ...alarmSettings, [key]: value };
+        setAlarmSettings(newSettings);
+
+        if (user?.id) {
+            saveAlarmSettings(user.id, newSettings);
+            logAlarmActivity('settings_changed', { [key]: value });
+            showToast({
+                type: 'success',
+                title: 'Alarm Settings Updated',
+                message: 'Your weather alarm settings have been saved',
+                duration: 2000
+            });
+        }
+    };
+
+    const dismissAlarm = () => {
+        setAlarmActive(false);
+        logAlarmActivity('dismissed', { reason: alarmReason });
+        showToast({
+            type: 'info',
+            title: 'Alarm Dismissed',
+            message: 'Weather alarm has been dismissed',
+            duration: 2000
+        });
     };
 
     const getAlertIcon = (type: string) => {
@@ -222,6 +303,35 @@ const Alerts: React.FC = () => {
                     <h1 className="text-3xl font-bold mb-2">Farming Alerts & Notifications</h1>
                     <p className="text-muted-foreground">Stay informed about weather conditions that affect your crops</p>
                 </div>
+
+                {/* Active Alarm Banner */}
+                {alarmActive && (
+                    <Card className="mb-6 border-red-500 border-2 bg-red-50 animate-pulse">
+                        <CardContent className="p-6">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-4">
+                                    <div className="bg-red-500 text-white p-3 rounded-full">
+                                        <CloudRain className="h-6 w-6" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-bold text-red-900">⚠️ RAINY WEATHER ALARM</h3>
+                                        <p className="text-red-700 font-medium">{alarmReason}</p>
+                                        <p className="text-sm text-red-600 mt-1">
+                                            Take necessary precautions to protect your crops from rain damage
+                                        </p>
+                                    </div>
+                                </div>
+                                <Button
+                                    onClick={dismissAlarm}
+                                    variant="destructive"
+                                    className="bg-red-600 hover:bg-red-700"
+                                >
+                                    Dismiss Alarm
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
 
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
                     <TabsList className="grid w-full grid-cols-4">
@@ -484,6 +594,139 @@ const Alerts: React.FC = () => {
                                             />
                                         </div>
                                     </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Alarm Settings Card */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center space-x-2">
+                                    <Bell className="h-5 w-5" />
+                                    <span>Weather Alarm Settings</span>
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <Label className="flex items-center space-x-2">
+                                                <Bell className="h-4 w-4" />
+                                                <span>Enable Weather Alarms</span>
+                                            </Label>
+                                            <p className="text-sm text-muted-foreground">
+                                                Master switch for all weather alarms
+                                            </p>
+                                        </div>
+                                        <Switch
+                                            checked={alarmSettings.enabled}
+                                            onCheckedChange={(checked) => handleAlarmSettingChange('enabled', checked)}
+                                        />
+                                    </div>
+
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <Label className="flex items-center space-x-2">
+                                                <CloudRain className="h-4 w-4 text-blue-500" />
+                                                <span>Rainy Weather Alarm</span>
+                                            </Label>
+                                            <p className="text-sm text-muted-foreground">
+                                                Alert when rain is detected or forecasted
+                                            </p>
+                                        </div>
+                                        <Switch
+                                            checked={alarmSettings.rainyWeatherAlarm}
+                                            onCheckedChange={(checked) => handleAlarmSettingChange('rainyWeatherAlarm', checked)}
+                                            disabled={!alarmSettings.enabled}
+                                        />
+                                    </div>
+
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <Label className="flex items-center space-x-2">
+                                                {alarmSettings.soundEnabled ? (
+                                                    <Volume2 className="h-4 w-4" />
+                                                ) : (
+                                                    <VolumeX className="h-4 w-4" />
+                                                )}
+                                                <span>Sound Enabled</span>
+                                            </Label>
+                                            <p className="text-sm text-muted-foreground">
+                                                Play alarm sound when triggered
+                                            </p>
+                                        </div>
+                                        <Switch
+                                            checked={alarmSettings.soundEnabled}
+                                            onCheckedChange={(checked) => handleAlarmSettingChange('soundEnabled', checked)}
+                                            disabled={!alarmSettings.enabled}
+                                        />
+                                    </div>
+
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <Label className="flex items-center space-x-2">
+                                                <MessageSquare className="h-4 w-4 text-green-500" />
+                                                <span>SMS Enabled</span>
+                                            </Label>
+                                            <p className="text-sm text-muted-foreground">
+                                                Send SMS alerts when triggered
+                                            </p>
+                                        </div>
+                                        <Switch
+                                            checked={alarmSettings.smsEnabled}
+                                            onCheckedChange={(checked) => handleAlarmSettingChange('smsEnabled', checked)}
+                                            disabled={!alarmSettings.enabled}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <Label htmlFor="threshold">
+                                            Heavy Rain Threshold: {alarmSettings.heavyRainThreshold}mm
+                                        </Label>
+                                        <Input
+                                            id="threshold"
+                                            type="number"
+                                            min="1"
+                                            max="50"
+                                            value={alarmSettings.heavyRainThreshold}
+                                            onChange={(e) => handleAlarmSettingChange('heavyRainThreshold', parseFloat(e.target.value))}
+                                            disabled={!alarmSettings.enabled}
+                                            className="mt-1"
+                                        />
+                                        <p className="text-sm text-muted-foreground mt-1">
+                                            Precipitation level to trigger heavy rain alarm
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <Label htmlFor="volume">
+                                            Alarm Volume: {Math.round(alarmSettings.volume * 100)}%
+                                        </Label>
+                                        <Input
+                                            id="volume"
+                                            type="range"
+                                            min="0"
+                                            max="1"
+                                            step="0.1"
+                                            value={alarmSettings.volume}
+                                            onChange={(e) => handleAlarmSettingChange('volume', parseFloat(e.target.value))}
+                                            disabled={!alarmSettings.enabled || !alarmSettings.soundEnabled}
+                                            className="mt-1"
+                                        />
+                                        <p className="text-sm text-muted-foreground mt-1">
+                                            Adjust the alarm sound volume
+                                        </p>
+                                    </div>
+
+                                    {alarmActive && (
+                                        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                                            <div className="flex items-center space-x-2 text-red-700 mb-2">
+                                                <AlertCircle className="h-5 w-5" />
+                                                <span className="font-semibold">Alarm Currently Active</span>
+                                            </div>
+                                            <p className="text-sm text-red-600">{alarmReason}</p>
+                                        </div>
+                                    )}
                                 </div>
                             </CardContent>
                         </Card>
