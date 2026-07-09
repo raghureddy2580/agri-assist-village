@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     const { showToast } = useToast();
 
     const [loginData, setLoginData] = useState({
-        email: '',
+        identifier: '',
         password: ''
     });
 
@@ -39,7 +39,7 @@ const Login: React.FC = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!loginData.email || !loginData.password) {
+        if (!loginData.identifier || !loginData.password) {
             showToast({
                 type: 'error',
                 title: 'Validation Error',
@@ -49,7 +49,7 @@ const Login: React.FC = () => {
             return;
         }
 
-        const success = await login(loginData.email, loginData.password);
+        const success = await login(loginData.identifier, loginData.password);
 
         if (success) {
             showToast({
@@ -116,7 +116,7 @@ const Login: React.FC = () => {
             showToast({
                 type: 'success',
                 title: 'Registration Successful',
-                message: 'Welcome to AgriAssist! Your account has been created.',
+                message: 'Welcome to Agri-Rover! Your account has been created.',
                 duration: 3000
             });
             navigate(from, { replace: true });
@@ -151,7 +151,7 @@ const Login: React.FC = () => {
                 <div className="text-center mb-8">
                     <div className="flex items-center justify-center space-x-2 mb-4">
                         <Leaf className="h-8 w-8 text-green-600" />
-                        <h1 className="text-3xl font-bold text-gray-800">AgriAssist</h1>
+                        <h1 className="text-3xl font-bold text-gray-800">Agri-Rover</h1>
                     </div>
                     <p className="text-gray-600">Fresh from farm to your table</p>
                 </div>
@@ -179,17 +179,18 @@ const Login: React.FC = () => {
                             {/* Login Tab */}
                             <TabsContent value="login">
                                 <form onSubmit={handleLogin} className="space-y-4">
+
                                     <div>
-                                        <Label htmlFor="login-email" className="flex items-center space-x-2">
+                                        <Label htmlFor="login-identifier" className="flex items-center space-x-2">
                                             <Mail className="h-4 w-4" />
-                                            <span>Email</span>
+                                            <span>Email or Phone</span>
                                         </Label>
                                         <Input
-                                            id="login-email"
-                                            type="email"
-                                            value={loginData.email}
-                                            onChange={(e) => handleLoginInputChange('email', e.target.value)}
-                                            placeholder="Enter your email"
+                                            id="login-identifier"
+                                            type="text"
+                                            value={loginData.identifier}
+                                            onChange={(e) => handleLoginInputChange('identifier', e.target.value)}
+                                            placeholder="Enter your email or phone"
                                             className="mt-1"
                                             disabled={loading}
                                         />

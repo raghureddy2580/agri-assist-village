@@ -13,7 +13,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt="Vishwachinnapor Farming Technology"
+          alt="Agri-Rover Farming Technology"
           className="w-full h-full object-cover opacity-20"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/90 to-background/70"></div>
@@ -25,19 +25,18 @@ const HeroSection = () => {
           {/* Hero Badge */}
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
             <Shield className="w-4 h-4 mr-2" />
-            Trusted by 10 Farmers Worldwide
+            Trusted by Farmers,Built for Farmers.
           </div>
 
           {/* Main Heading */}
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-            Smart Farming For the
-            <span className="text-primary block">Modern Farmer</span>
+            Growing the Future with
+            <span className="text-primary block">sustainable farming</span>
           </h1>
 
           {/* Subheading */}
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            Revolutionize your farming with AI-powered crop management, real-time weather insights,
-            labor hiring, and direct marketplace connections. Boost productivity and profits with digital agriculture.
+            Monitor your crops with our Rover Assisted Crop Monitoring System. Get real-time crop health updates, weather information, and early disease detection to help farmers increase yield and reduce crop loss with smart and easy farming.
           </p>
 
           {/* CTA Buttons */}
@@ -78,7 +77,7 @@ const HeroSection = () => {
             <div className="text-center">
               <div className="flex items-center justify-center mb-2">
                 <Users className="h-6 w-6 text-primary mr-2" />
-                <span className="text-2xl font-bold text-foreground">10 M</span>
+                <span className="text-2xl font-bold text-foreground">100+</span>
               </div>
               <p className="text-muted-foreground font-medium">Active Farmers</p>
             </div>

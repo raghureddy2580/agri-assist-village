@@ -12,7 +12,8 @@ interface User {
 
 interface AuthContextType {
     user: User | null;
-    login: (email: string, password: string) => Promise<boolean>;
+    // identifier can be email or phone
+    login: (identifier: string, password: string) => Promise<boolean>;
     register: (userData: Omit<User, 'id'> & { password: string }) => Promise<boolean>;
     logout: () => void;
     isAuthenticated: boolean;
@@ -51,7 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setLoading(false);
     }, []);
 
-    const login = async (email: string, password: string): Promise<boolean> => {
+    const login = async (identifier: string, password: string): Promise<boolean> => {
         setLoading(true);
 
         // Simulate API call delay
@@ -60,8 +61,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Get stored users
         const users = JSON.parse(localStorage.getItem('agri_users') || '[]');
 
-        // Find user
-        const foundUser = users.find((u: any) => u.email === email && u.password === password);
+        // Find user by email OR phone (accept either as identifier)
+        const foundUser = users.find((u: any) => (u.email === identifier || u.phone === identifier) && u.password === password);
 
         if (foundUser) {
             const { password: _, ...userWithoutPassword } = foundUser;
