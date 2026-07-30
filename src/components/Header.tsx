@@ -85,6 +85,17 @@ const Header: React.FC = () => {
                   <span>{t('cropGuide')}</span>
                 </Button>
 
+                {/* Rover Monitoring Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-2"
+                  onClick={() => navigate('/rover-monitoring')}
+                >
+                  <Leaf className="h-4 w-4" />
+                  <span>Rover Monitor</span>
+                </Button>
+
                 {/* Post Job Button */}
                 <Button
                   variant="outline"

@@ -21,7 +21,9 @@ import FarmerProfile from "./pages/FarmerProfile";
 import LocalLabor from "./pages/LocalLabor";
 import Marketplace from "./pages/Marketplace";
 import AddListing from "./pages/AddListing";
+import RoverMonitoring from "./pages/RoverMonitoring";
 import NotFound from "./pages/NotFound";
+import { RoverProvider } from "./contexts/RoverContext";
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -47,16 +49,17 @@ function App() {
       <LanguageProvider>
         <AuthProvider>
           <CartProvider>
-            <Router>
-              <DeveloperDebugPanel />
-              <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/" element={<Index />} />
-                <Route path="/checkout" element={
-                  <ProtectedRoute>
-                    <Checkout />
-                  </ProtectedRoute>
-                } />
+            <RoverProvider>
+              <Router>
+                <DeveloperDebugPanel />
+                <Routes>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/" element={<Index />} />
+                  <Route path="/checkout" element={
+                    <ProtectedRoute>
+                      <Checkout />
+                    </ProtectedRoute>
+                  } />
                 <Route path="/order-confirmation" element={
                   <ProtectedRoute>
                     <OrderConfirmation />
@@ -75,6 +78,11 @@ function App() {
                 <Route path="/crop-guide" element={
                   <ProtectedRoute>
                     <CropGuide />
+                  </ProtectedRoute>
+                } />
+                <Route path="/rover-monitoring" element={
+                  <ProtectedRoute>
+                    <RoverMonitoring />
                   </ProtectedRoute>
                 } />
                 <Route path="/knowledge-hub" element={<KnowledgeHub />} />
@@ -122,6 +130,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Router>
+          </RoverProvider>
           </CartProvider>
         </AuthProvider>
       </LanguageProvider>
