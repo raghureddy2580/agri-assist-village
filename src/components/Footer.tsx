@@ -19,6 +19,7 @@ const Footer = () => {
     { name: "Labor Hiring", href: "#labor" },
     { name: "Crop Management", href: "#crops" },
     { name: "Weather Forecast", href: "#weather" },
+    { name: "Rover Monitoring", href: "/rover-monitoring" },
     { name: "Marketplace", href: "#marketplace" },
     { name: "Knowledge Hub", href: "/knowledge-hub" }
   ];
