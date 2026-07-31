@@ -192,6 +192,8 @@ export interface Notification {
     createdAt: string;
 }
 
+export type LabourerProfile = LaborerProfile;
+
 // Sample data for development
 export const sampleFarmers: FarmerProfile[] = [
     {
@@ -285,6 +287,8 @@ export const sampleLaborers: LaborerProfile[] = [
         updatedAt: '2024-09-09T14:00:00Z'
     }
 ];
+
+export const sampleLabourers = sampleLaborers;
 
 export const sampleJobPostings: JobPosting[] = [
     {
