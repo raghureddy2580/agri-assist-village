@@ -123,7 +123,7 @@ const Header: React.FC = () => {
                   variant="outline"
                   size="sm"
                   className="flex items-center space-x-2"
-                  onClick={() => navigate('/labor-marketplace')}
+                  onClick={() => navigate('/labour-marketplace')}
                 >
                   <Briefcase className="h-4 w-4" />
                   <span>Find Jobs</span>
@@ -140,12 +140,12 @@ const Header: React.FC = () => {
                   <span>View Matches</span>
                 </Button>
 
-                {/* Local Labor Button */}
+                {/* Local Labour Button */}
                 <Button
                   variant="outline"
                   size="sm"
                   className="flex items-center space-x-2"
-                  onClick={() => navigate('/local-labor')}
+                  onClick={() => navigate('/local-labour')}
                 >
                   <Users className="h-4 w-4" />
                   <span>Local Labor</span>

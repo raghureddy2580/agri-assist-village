@@ -1,5 +1,5 @@
-// Labor Hiring System Database Schema
-// Similar to Indeed.com functionality for connecting farmers with laborers
+// Labour Hiring System Database Schema
+// Similar to Indeed.com functionality for connecting farmers with labourers
 
 export interface FarmerProfile {
     id: string;

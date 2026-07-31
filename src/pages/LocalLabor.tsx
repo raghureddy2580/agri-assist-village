@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
-import { sampleLaborers, LaborerProfile, createConnection } from '@/lib/laborDatabase';
+import { sampleLabourers, LabourerProfile, createConnection } from '@/lib/labourDatabase';
 import {
     MapPin,
     Users,
@@ -21,7 +21,7 @@ import {
     MessageSquare
 } from 'lucide-react';
 
-const LocalLabor: React.FC = () => {
+const LocalLabour: React.FC = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
@@ -29,9 +29,9 @@ const LocalLabor: React.FC = () => {
         district: '',
         village: ''
     });
-    const [availableLaborers, setAvailableLaborers] = useState<LaborerProfile[]>([]);
-    const [filteredLaborers, setFilteredLaborers] = useState<LaborerProfile[]>([]);
-    const [selectedLaborer, setSelectedLaborer] = useState<LaborerProfile | null>(null);
+    const [availableLabourers, setAvailableLabourers] = useState<LabourerProfile[]>([]);
+    const [filteredLabourers, setFilteredLabourers] = useState<LabourerProfile[]>([]);
+    const [selectedLabourer, setSelectedLabourer] = useState<LabourerProfile | null>(null);
     const [connectionStatus, setConnectionStatus] = useState<Record<string, string>>({});
 
     const districts = [
@@ -48,10 +48,10 @@ const LocalLabor: React.FC = () => {
     };
 
     useEffect(() => {
-        // Load available laborers
-        const verifiedLaborers = sampleLaborers.filter(laborer => laborer.profileVerified);
-        setAvailableLaborers(verifiedLaborers);
-        setFilteredLaborers(verifiedLaborers);
+        // Load available labourers
+        const verifiedLabourers = sampleLabourers.filter(labourer => labourer.profileVerified);
+        setAvailableLabourers(verifiedLabourers);
+        setFilteredLabourers(verifiedLabourers);
     }, []);
 
     const handleLocationChange = (field: 'district' | 'village', value: string) => {
@@ -63,42 +63,42 @@ const LocalLabor: React.FC = () => {
 
         setSelectedLocation(newLocation);
 
-        // Filter laborers by location
-        let filtered = availableLaborers;
+        // Filter labourers by location
+        let filtered = availableLabourers;
 
         if (newLocation.district) {
-            filtered = filtered.filter(laborer =>
-                laborer.location.district.toLowerCase().includes(newLocation.district.toLowerCase())
+            filtered = filtered.filter(labourer =>
+                labourer.location.district.toLowerCase().includes(newLocation.district.toLowerCase())
             );
         }
 
         if (newLocation.village) {
-            filtered = filtered.filter(laborer =>
-                laborer.location.village.toLowerCase().includes(newLocation.village.toLowerCase())
+            filtered = filtered.filter(labourer =>
+                labourer.location.village.toLowerCase().includes(newLocation.village.toLowerCase())
             );
         }
 
-        setFilteredLaborers(filtered);
+        setFilteredLabourers(filtered);
     };
 
-    const handleConnect = (laborerId: string) => {
+    const handleConnect = (labourerId: string) => {
         if (!user) return;
 
         // Create connection
-        const connection = createConnection(user.id, laborerId, 'local_labor', 'farmer', 'Local labor connection');
+        const connection = createConnection(user.id, labourerId, 'local_labour', 'farmer', 'Local labour connection');
 
         // Update connection status
         setConnectionStatus(prev => ({
             ...prev,
-            [laborerId]: 'pending'
+            [labourerId]: 'pending'
         }));
 
         alert('Connection request sent successfully!');
     };
 
-    const getAvailabilityStatus = (laborer: LaborerProfile) => {
+    const getAvailabilityStatus = (labourer: LabourerProfile) => {
         const currentHour = new Date().getHours();
-        const availableDays = laborer.availability.availableDays;
+        const availableDays = labourer.availability.availableDays;
         const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
 
         const isAvailableToday = availableDays.includes(currentDay);
@@ -113,9 +113,9 @@ const LocalLabor: React.FC = () => {
         }
     };
 
-    const getDistance = (laborerLocation: string, farmerLocation: string) => {
+    const getDistance = (labourerLocation: string, farmerLocation: string) => {
         // Simple distance calculation (in a real app, you'd use geolocation API)
-        if (laborerLocation === farmerLocation) return '0.5 km';
+        if (labourerLocation === farmerLocation) return '0.5 km';
         return '2-5 km'; // Mock distance
     };
 
@@ -126,7 +126,7 @@ const LocalLabor: React.FC = () => {
                 <div className="max-w-6xl mx-auto p-8">
                     <div className="text-center">
                         <h1 className="text-2xl font-bold mb-4">Please Login</h1>
-                        <p className="text-muted-foreground">You need to be logged in to access local labor information.</p>
+                        <p className="text-muted-foreground">You need to be logged in to access local labour information.</p>
                         <Button onClick={() => navigate('/login')} className="mt-4">
                             Login
                         </Button>
@@ -141,7 +141,7 @@ const LocalLabor: React.FC = () => {
             <Header />
             <div className="max-w-6xl mx-auto p-8">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold mb-2">Local Labor Availability</h1>
+                    <h1 className="text-3xl font-bold mb-2">Local Labour Availability</h1>
                     <p className="text-muted-foreground">Find available workers in your area to complete your farming work on time</p>
                 </div>
 
@@ -153,9 +153,9 @@ const LocalLabor: React.FC = () => {
                                 <AlertTriangle className="h-6 w-6 text-orange-600" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-semibold text-orange-800 mb-2">Solve Labor Shortage Problems</h3>
+                                <h3 className="text-lg font-semibold text-orange-800 mb-2">Solve Labour Shortage Problems</h3>
                                 <p className="text-orange-700">
-                                    Many farmers face delays in harvesting and other farming activities due to labor shortages.
+                                    Many farmers face delays in harvesting and other farming activities due to labour shortages.
                                     Our platform connects you with verified, available workers in your local area to ensure timely completion of your farming work.
                                 </p>
                             </div>
@@ -216,15 +216,15 @@ const LocalLabor: React.FC = () => {
                                 {selectedLocation.village && `, ${selectedLocation.village}`}
                             </p>
                             <p className="text-sm text-blue-600 mt-1">
-                                Showing {filteredLaborers.length} available worker{filteredLaborers.length !== 1 ? 's' : ''} in this area
+                                Showing {filteredLabourers.length} available worker{filteredLabourers.length !== 1 ? 's' : ''} in this area
                             </p>
                         </div>
                     </CardContent>
                 </Card>
 
-                {/* Available Laborers */}
+                {/* Available Labourers */}
                 <div className="space-y-6">
-                    {filteredLaborers.length === 0 ? (
+                    {filteredLabourers.length === 0 ? (
                         <Card>
                             <CardContent className="text-center py-12">
                                 <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
@@ -243,14 +243,14 @@ const LocalLabor: React.FC = () => {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                                 <Card>
                                     <CardContent className="p-4 text-center">
-                                        <div className="text-2xl font-bold text-green-600">{filteredLaborers.length}</div>
+                                        <div className="text-2xl font-bold text-green-600">{filteredLabourers.length}</div>
                                         <p className="text-sm text-muted-foreground">Available Workers</p>
                                     </CardContent>
                                 </Card>
                                 <Card>
                                     <CardContent className="p-4 text-center">
                                         <div className="text-2xl font-bold text-blue-600">
-                                            {filteredLaborers.filter(l => getAvailabilityStatus(l).status === 'available').length}
+                                            {filteredLabourers.filter(l => getAvailabilityStatus(l).status === 'available').length}
                                         </div>
                                         <p className="text-sm text-muted-foreground">Available Now</p>
                                     </CardContent>
@@ -258,38 +258,38 @@ const LocalLabor: React.FC = () => {
                                 <Card>
                                     <CardContent className="p-4 text-center">
                                         <div className="text-2xl font-bold text-purple-600">
-                                            {filteredLaborers.filter(l => l.workExperience.totalYears >= 3).length}
+                                            {filteredLabourers.filter(l => l.workExperience.totalYears >= 3).length}
                                         </div>
                                         <p className="text-sm text-muted-foreground">Experienced Workers</p>
                                     </CardContent>
                                 </Card>
                             </div>
 
-                            {/* Laborer Cards */}
+                            {/* Labourer Cards */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {filteredLaborers.map((laborer) => {
-                                    const availability = getAvailabilityStatus(laborer);
-                                    const connectionKey = laborer.id;
+                                {filteredLabourers.map((labourer) => {
+                                    const availability = getAvailabilityStatus(labourer);
+                                    const connectionKey = labourer.id;
                                     const status = connectionStatus[connectionKey] || 'none';
 
                                     return (
-                                        <Card key={laborer.id} className="hover:shadow-md transition-shadow">
+                                        <Card key={labourer.id} className="hover:shadow-md transition-shadow">
                                             <CardContent className="p-6">
                                                 <div className="flex items-start justify-between mb-4">
                                                     <div className="flex items-start space-x-3">
                                                         <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                                                             <span className="text-blue-600 font-semibold">
-                                                                {laborer.name.charAt(0)}
+                                                                {labourer.name.charAt(0)}
                                                             </span>
                                                         </div>
                                                         <div>
-                                                            <h3 className="text-lg font-semibold">{laborer.name}</h3>
+                                                            <h3 className="text-lg font-semibold">{labourer.name}</h3>
                                                             <div className="flex items-center space-x-2 mt-1">
                                                                 <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                                                                <span className="text-sm text-muted-foreground">{laborer.rating}</span>
+                                                                <span className="text-sm text-muted-foreground">{labourer.rating}</span>
                                                                 <span className="text-sm text-muted-foreground">•</span>
                                                                 <span className="text-sm text-muted-foreground">
-                                                                    {laborer.workExperience.totalYears} years exp.
+                                                                    {labourer.workExperience.totalYears} years exp.
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -302,21 +302,21 @@ const LocalLabor: React.FC = () => {
                                                 <div className="space-y-3 mb-4">
                                                     <div className="flex items-center space-x-2 text-sm">
                                                         <MapPin className="h-4 w-4 text-muted-foreground" />
-                                                        <span>{laborer.location.village}, {laborer.location.district}</span>
+                                                        <span>{labourer.location.village}, {labourer.location.district}</span>
                                                         <span className="text-muted-foreground">•</span>
                                                         <span className="text-green-600 font-medium">
-                                                            {getDistance(laborer.location.village, selectedLocation.village || selectedLocation.district)}
+                                                            {getDistance(labourer.location.village, selectedLocation.village || selectedLocation.district)}
                                                         </span>
                                                     </div>
 
                                                     <div className="flex items-center space-x-2 text-sm">
                                                         <Phone className="h-4 w-4 text-muted-foreground" />
-                                                        <span>{laborer.phone}</span>
+                                                        <span>{labourer.phone}</span>
                                                     </div>
 
                                                     <div className="flex items-center space-x-2 text-sm">
                                                         <Calendar className="h-4 w-4 text-muted-foreground" />
-                                                        <span>Available: {laborer.availability.availableDays.slice(0, 3).join(', ')}</span>
+                                                        <span>Available: {labourer.availability.availableDays.slice(0, 3).join(', ')}</span>
                                                     </div>
                                                 </div>
 
@@ -324,14 +324,14 @@ const LocalLabor: React.FC = () => {
                                                 <div className="mb-4">
                                                     <h4 className="text-sm font-medium mb-2">Skills</h4>
                                                     <div className="flex flex-wrap gap-1">
-                                                        {laborer.workExperience.skills.slice(0, 4).map((skill) => (
+                                                        {labourer.workExperience.skills.slice(0, 4).map((skill) => (
                                                             <Badge key={skill} variant="outline" className="text-xs capitalize">
                                                                 {skill.replace('_', ' ')}
                                                             </Badge>
                                                         ))}
-                                                        {laborer.workExperience.skills.length > 4 && (
+                                                        {labourer.workExperience.skills.length > 4 && (
                                                             <Badge variant="outline" className="text-xs">
-                                                                +{laborer.workExperience.skills.length - 4} more
+                                                                +{labourer.workExperience.skills.length - 4} more
                                                             </Badge>
                                                         )}
                                                     </div>
@@ -341,7 +341,7 @@ const LocalLabor: React.FC = () => {
                                                 <div className="mb-4">
                                                     <h4 className="text-sm font-medium mb-2">Available for</h4>
                                                     <div className="flex flex-wrap gap-1">
-                                                        {laborer.availability.workType.map((workType) => (
+                                                        {labourer.availability.workType.map((workType) => (
                                                             <Badge key={workType} variant="secondary" className="text-xs capitalize">
                                                                 {workType.replace('_', ' ')}
                                                             </Badge>
@@ -351,7 +351,7 @@ const LocalLabor: React.FC = () => {
 
                                                 <div className="flex items-center justify-between pt-4 border-t">
                                                     <div className="text-sm">
-                                                        <span className="font-medium">₹{laborer.preferences.minWage}</span>
+                                                        <span className="font-medium">₹{labourer.preferences.minWage}</span>
                                                         <span className="text-muted-foreground">/day minimum</span>
                                                     </div>
 
@@ -365,20 +365,20 @@ const LocalLabor: React.FC = () => {
                                                             </DialogTrigger>
                                                             <DialogContent>
                                                                 <DialogHeader>
-                                                                    <DialogTitle>Contact {laborer.name}</DialogTitle>
+                                                                    <DialogTitle>Contact {labourer.name}</DialogTitle>
                                                                 </DialogHeader>
                                                                 <div className="space-y-4">
                                                                     <div className="p-4 bg-gray-50 rounded-lg">
                                                                         <h4 className="font-medium mb-2">Contact Information</h4>
-                                                                        <p className="text-sm"><strong>Phone:</strong> {laborer.phone}</p>
-                                                                        <p className="text-sm"><strong>Email:</strong> {laborer.email}</p>
-                                                                        <p className="text-sm"><strong>Location:</strong> {laborer.location.village}, {laborer.location.district}</p>
+                                                                        <p className="text-sm"><strong>Phone:</strong> {labourer.phone}</p>
+                                                                        <p className="text-sm"><strong>Email:</strong> {labourer.email}</p>
+                                                                        <p className="text-sm"><strong>Location:</strong> {labourer.location.village}, {labourer.location.district}</p>
                                                                     </div>
                                                                     <div className="p-4 bg-blue-50 rounded-lg">
                                                                         <h4 className="font-medium mb-2">Work Preferences</h4>
-                                                                        <p className="text-sm"><strong>Minimum Wage:</strong> ₹{laborer.preferences.minWage}/day</p>
-                                                                        <p className="text-sm"><strong>Available Days:</strong> {laborer.availability.availableDays.join(', ')}</p>
-                                                                        <p className="text-sm"><strong>Work Types:</strong> {laborer.availability.workType.join(', ')}</p>
+                                                                        <p className="text-sm"><strong>Minimum Wage:</strong> ₹{labourer.preferences.minWage}/day</p>
+                                                                        <p className="text-sm"><strong>Available Days:</strong> {labourer.availability.availableDays.join(', ')}</p>
+                                                                        <p className="text-sm"><strong>Work Types:</strong> {labourer.availability.workType.join(', ')}</p>
                                                                     </div>
                                                                 </div>
                                                             </DialogContent>
@@ -391,7 +391,7 @@ const LocalLabor: React.FC = () => {
                                                             </Button>
                                                         ) : (
                                                             <Button
-                                                                onClick={() => handleConnect(laborer.id)}
+                                                                onClick={() => handleConnect(labourer.id)}
                                                                 size="sm"
                                                                 className="bg-green-600 hover:bg-green-700"
                                                             >
@@ -427,4 +427,4 @@ const LocalLabor: React.FC = () => {
     );
 };
 
-export default LocalLabor;
+export default LocalLabour;

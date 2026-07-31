@@ -20,7 +20,7 @@
                    │              │
                    ▼              ▼
         ┌─────────────┐    ┌─────────────┐
-        │  Labor      │    │ Marketplace │
+        │  Labour      │    │ Marketplace │
         │ Management  │    │   System    │
         └──────┬──────┘    └──────┬──────┘
                │                 │
@@ -65,11 +65,11 @@
 1. **Register/Login** → Access platform
 2. **Check Weather** → Plan farming activities
 3. **Scan Plants** → Detect diseases early
-4. **Post Jobs** → Hire labor when needed
+4. **Post Jobs** → Hire labour when needed
 5. **List Produce** → Sell directly to buyers
 6. **Monitor Alerts** → Stay updated on market/govt info
 
-### Laborer User Flow:
+### Labourer User Flow:
 1. **Create Profile** → Register skills & availability
 2. **Browse Jobs** → Find suitable work
 3. **Apply for Jobs** → Submit applications
@@ -96,7 +96,7 @@ Location     ←── Geolocation ←── User Location
 
 ## Key Features Summary
 
-- **Labor Management**: Job posting, worker matching, hiring
+- **Labour Management**: Job posting, worker matching, hiring
 - **Crop Protection**: AI-powered plant disease detection
 - **Direct Marketplace**: Farmer-to-buyer trading platform
 - **Weather Intelligence**: Real-time forecasts and planning

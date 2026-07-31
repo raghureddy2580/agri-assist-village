@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
-import { sampleJobPostings, sampleLaborers, JobPosting, LaborerProfile } from '@/lib/laborDatabase';
+import { sampleJobPostings, sampleLabourers, JobPosting, LabourerProfile } from '@/lib/labourDatabase';
 import {
     MapPin,
     Clock,
@@ -25,7 +25,7 @@ import {
     AlertCircle
 } from 'lucide-react';
 
-const LaborMarketplace: React.FC = () => {
+const LabourMarketplace: React.FC = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
@@ -151,7 +151,7 @@ const LaborMarketplace: React.FC = () => {
         // Here you would typically send the application to your backend
         console.log('Application submitted:', {
             jobId: selectedJob.id,
-            laborerId: user.id,
+            labourerId: user.id,
             ...applicationData
         });
 
@@ -188,7 +188,7 @@ const LaborMarketplace: React.FC = () => {
                 <div className="max-w-6xl mx-auto p-8">
                     <div className="text-center">
                         <h1 className="text-2xl font-bold mb-4">Please Login</h1>
-                        <p className="text-muted-foreground">You need to be logged in to access the labor marketplace.</p>
+                        <p className="text-muted-foreground">You need to be logged in to access the labour marketplace.</p>
                         <Button onClick={() => navigate('/login')} className="mt-4">
                             Login
                         </Button>
@@ -203,7 +203,7 @@ const LaborMarketplace: React.FC = () => {
             <Header />
             <div className="max-w-6xl mx-auto p-8">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold mb-2">Labor Marketplace</h1>
+                    <h1 className="text-3xl font-bold mb-2">Labour Marketplace</h1>
                     <p className="text-muted-foreground">Find farming jobs that match your skills</p>
                 </div>
 
@@ -513,4 +513,4 @@ const LaborMarketplace: React.FC = () => {
     );
 };
 
-export default LaborMarketplace;
+export default LabourMarketplace;

@@ -10,9 +10,9 @@
 
 ### Key Functional Modules
 
-#### 1. Labor Management System
+#### 1. Labour Management System
 - Job posting platform for farmers
-- Laborer profile registration
+- Labourer profile registration
 - AI-powered job matching
 - Direct hiring capabilities
 
@@ -76,7 +76,7 @@
 
 ### User Flow Completion
 - **Farmer Journey** - Registration to marketplace sales
-- **Laborer Journey** - Profile to job completion
+- **Labourer Journey** - Profile to job completion
 - **Buyer Journey** - Browsing to order delivery
 
 ### Technical Implementation
@@ -89,7 +89,7 @@
 
 ### Economic Impact
 - **Direct Market Access** - Eliminates middlemen costs
-- **Labor Efficiency** - Streamlined hiring process
+- **Labour Efficiency** - Streamlined hiring process
 - **Price Transparency** - Fair market negotiations
 
 ### Agricultural Benefits
@@ -99,7 +99,7 @@
 
 ### Social Impact
 - **Farmer Empowerment** - Technology accessibility
-- **Job Creation** - Labor market opportunities
+- **Job Creation** - Labour market opportunities
 - **Sustainable Practices** - Better farming methods
 
 ## 📈 Success Indicators

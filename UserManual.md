@@ -86,9 +86,9 @@ The Agri-Assist platform provides a comprehensive digital ecosystem for modern f
 New User → Landing Page → Sign Up/Login → Profile Setup → Dashboard Access
 ```
 
-### 2. Labor Management Flow
+### 2. Labour Management Flow
 ```
-Farmer → Post Job → Job Listing → Laborer Applications → Review Profiles → Hire Worker → Job Completion → Payment
+Farmer → Post Job → Job Listing → Labourer Applications → Review Profiles → Hire Worker → Job Completion → Payment
 ```
 
 ### 3. Crop Management Flow
@@ -118,7 +118,7 @@ System → Weather Data Collection → Forecast Generation → User Alerts → N
    - Check weather forecasts
    - Review smart alerts
    - Manage crop health via scanner
-   - Post labor requirements
+   - Post labour requirements
    - List produce in marketplace
 
 3. **Market Interactions**
@@ -127,7 +127,7 @@ System → Weather Data Collection → Forecast Generation → User Alerts → N
    - Process orders and payments
    - Track deliveries
 
-#### For Laborers:
+#### For Labourers:
 1. **Profile Creation**
    - Register with skills and experience
    - Set availability and location
@@ -193,7 +193,7 @@ The Agri-Assist platform delivers:
 5. **Real-time Features** - Weather updates, live notifications
 6. **AI Integration** - Plant disease detection capabilities
 7. **Marketplace System** - Direct farmer-buyer trading platform
-8. **Labor Management** - Job posting and matching system
+8. **Labour Management** - Job posting and matching system
 
 #### Technical Achievements
 - **Performance Optimized** - Fast loading with Vite bundling
@@ -211,10 +211,10 @@ The Agri-Assist platform delivers:
 ### Scope of the Project
 
 #### Current Scope (Implemented)
-- **Target Users**: Farmers, agricultural laborers, and produce buyers
+- **Target Users**: Farmers, agricultural labourers, and produce buyers
 - **Geographic Focus**: India (with multi-language support)
 - **Core Modules**:
-  - Labor hiring and management
+  - Labour hiring and management
   - Crop disease detection
   - Weather forecasting
   - Direct marketplace

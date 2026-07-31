@@ -41,7 +41,7 @@ const KnowledgeHub: React.FC = () => {
                                         <li>• AI-powered plant disease scanning</li>
                                         <li>• Real-time weather alerts and forecasts</li>
                                         <li>• Direct marketplace for buying and selling produce</li>
-                                        <li>• Labor hiring platform for farm workers</li>
+                                        <li>• Labour hiring platform for farm workers</li>
                                         <li>• Smart farming alerts and notifications</li>
                                     </ul>
                                 </div>

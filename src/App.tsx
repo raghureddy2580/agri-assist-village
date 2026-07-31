@@ -91,12 +91,12 @@ function App() {
                     <JobPosting />
                   </ProtectedRoute>
                 } />
-                <Route path="/laborer-profile" element={
+                <Route path="/labourer-profile" element={
                   <ProtectedRoute>
                     <LaborerProfile />
                   </ProtectedRoute>
                 } />
-                <Route path="/labor-marketplace" element={
+                <Route path="/labour-marketplace" element={
                   <ProtectedRoute>
                     <LaborMarketplace />
                   </ProtectedRoute>
@@ -111,7 +111,7 @@ function App() {
                     <FarmerProfile />
                   </ProtectedRoute>
                 } />
-                <Route path="/local-labor" element={
+                <Route path="/local-labour" element={
                   <ProtectedRoute>
                     <LocalLabor />
                   </ProtectedRoute>

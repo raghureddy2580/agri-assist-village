@@ -119,7 +119,7 @@ const JobPosting: React.FC = () => {
             alert(`Job posted successfully!\nJob ID: ${jobPosting.id}\n\nCheck browser console for details.`);
             
             // Navigate back to marketplace
-            navigate('/labor-marketplace');
+            navigate('/labour-marketplace');
         } catch (error) {
             console.error('Error posting job:', error);
             alert('Failed to post job. Please try again.');
@@ -448,7 +448,7 @@ const JobPosting: React.FC = () => {
 
                     {/* Submit */}
                     <div className="flex justify-end space-x-4">
-                        <Button type="button" variant="outline" onClick={() => navigate('/labor-marketplace')}>
+                        <Button type="button" variant="outline" onClick={() => navigate('/labour-marketplace')}>
                             Cancel
                         </Button>
                         <Button type="submit" className="bg-green-600 hover:bg-green-700">

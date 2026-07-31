@@ -9,7 +9,7 @@
 - Responsive mobile-first design
 
 ### Key Modules
-- **Labor Management** - Job posting & hiring platform
+- **Labour Management** - Job posting & hiring platform
 - **Marketplace** - Direct farmer-buyer trading
 - **Plant Scanner** - AI disease detection
 - **Weather Widget** - Real-time forecasts
@@ -41,5 +41,5 @@
 
 - Direct market access for farmers
 - AI-powered farming decisions
-- Labor market efficiency
+- Labour market efficiency
 - Sustainable agriculture practices

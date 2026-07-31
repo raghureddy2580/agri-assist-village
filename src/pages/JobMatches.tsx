@@ -16,7 +16,7 @@ import {
     JobPosting,
     LaborerProfile,
     createConnection
-} from '@/lib/laborDatabase';
+} from '@/lib/labourDatabase';
 import {
     Users,
     MapPin,
@@ -38,13 +38,13 @@ const JobMatches: React.FC = () => {
     const [selectedJob, setSelectedJob] = useState<JobPosting | null>(null);
     const [matches, setMatches] = useState<MatchScore[]>([]);
     const [recommendedJobs, setRecommendedJobs] = useState<{ job: JobPosting; matchScore: MatchScore }[]>([]);
-    const [viewMode, setViewMode] = useState<'farmer' | 'laborer'>('farmer');
+    const [viewMode, setViewMode] = useState<'farmer' | 'labourer'>('farmer');
     const [selectedLaborer, setSelectedLaborer] = useState<LaborerProfile | null>(null);
     const [connectionStatus, setConnectionStatus] = useState<Record<string, string>>({});
 
     useEffect(() => {
         if (user) {
-            // Check if user is a farmer (has posted jobs) or laborer
+            // Check if user is a farmer (has posted jobs) or labourer
             const farmerJobs = sampleJobPostings.filter(job => job.farmerId === user.id);
             if (farmerJobs.length > 0) {
                 setViewMode('farmer');
@@ -54,7 +54,7 @@ const JobMatches: React.FC = () => {
                     loadMatches(farmerJobs[0].id);
                 }
             } else {
-                setViewMode('laborer');
+                setViewMode('labourer');
                 loadRecommendedJobs();
             }
         }
@@ -91,23 +91,23 @@ const JobMatches: React.FC = () => {
         return 'Poor Match';
     };
 
-    const handleConnect = (laborerId: string, jobId: string) => {
+    const handleConnect = (labourerId: string, jobId: string) => {
         if (!user) return;
 
         // Create connection
-        const connection = createConnection(user.id, laborerId, jobId, 'farmer', 'Recommended by matching system');
+        const connection = createConnection(user.id, labourerId, jobId, 'farmer', 'Recommended by matching system');
 
         // Update connection status
         setConnectionStatus(prev => ({
             ...prev,
-            [`${laborerId}-${jobId}`]: 'pending'
+            [`${labourerId}-${jobId}`]: 'pending'
         }));
 
         alert('Connection request sent successfully!');
     };
 
     const handleApply = (jobId: string) => {
-        navigate(`/labor-marketplace`);
+        navigate(`/labour-marketplace`);
     };
 
     if (!user) {
@@ -135,7 +135,7 @@ const JobMatches: React.FC = () => {
                     <h1 className="text-3xl font-bold mb-2">Job Matches</h1>
                     <p className="text-muted-foreground">
                         {viewMode === 'farmer'
-                            ? 'Find the best laborers for your job postings'
+                            ? 'Find the best labourers for your job postings'
                             : 'Discover jobs that match your skills and preferences'
                         }
                     </p>
@@ -222,28 +222,28 @@ const JobMatches: React.FC = () => {
                                             </Card>
                                         ) : (
                                             matches.map((match) => {
-                                                const laborer = sampleLaborers.find(l => l.id === match.laborerId);
-                                                if (!laborer) return null;
+                                                const labourer = sampleLaborers.find(l => l.id === match.labourerId);
+                                                if (!labourer) return null;
 
-                                                const connectionKey = `${laborer.id}-${selectedJob.id}`;
+                                                const connectionKey = `${labourer.id}-${selectedJob.id}`;
                                                 const status = connectionStatus[connectionKey] || 'none';
 
                                                 return (
-                                                    <Card key={match.laborerId} className="hover:shadow-md transition-shadow">
+                                                    <Card key={match.labourerId} className="hover:shadow-md transition-shadow">
                                                         <CardContent className="p-6">
                                                             <div className="flex items-start justify-between">
                                                                 <div className="flex items-start space-x-4 flex-1">
                                                                     {/* Laborer Avatar */}
                                                                     <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                                                                         <span className="text-blue-600 font-semibold">
-                                                                            {laborer.name.charAt(0)}
+                                                                            {labourer.name.charAt(0)}
                                                                         </span>
                                                                     </div>
 
                                                                     {/* Laborer Info */}
                                                                     <div className="flex-1">
                                                                         <div className="flex items-center space-x-3 mb-2">
-                                                                            <h3 className="text-lg font-semibold">{laborer.name}</h3>
+                                                                            <h3 className="text-lg font-semibold">{labourer.name}</h3>
                                                                             <div className={`px-3 py-1 rounded-full text-xs font-medium ${getMatchScoreColor(match.score)}`}>
                                                                                 {match.score}% - {getMatchScoreLabel(match.score)}
                                                                             </div>
@@ -252,24 +252,24 @@ const JobMatches: React.FC = () => {
                                                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-muted-foreground mb-3">
                                                                             <div className="flex items-center space-x-2">
                                                                                 <MapPin className="h-3 w-3" />
-                                                                                <span>{laborer.location.village}, {laborer.location.district}</span>
+                                                                                <span>{labourer.location.village}, {labourer.location.district}</span>
                                                                             </div>
                                                                             <div className="flex items-center space-x-2">
                                                                                 <Briefcase className="h-3 w-3" />
-                                                                                <span>{laborer.workExperience.totalYears} years experience</span>
+                                                                                <span>{labourer.workExperience.totalYears} years experience</span>
                                                                             </div>
                                                                         </div>
 
                                                                         {/* Skills */}
                                                                         <div className="flex flex-wrap gap-1 mb-3">
-                                                                            {laborer.workExperience.skills.slice(0, 3).map((skill) => (
+                                                                            {labourer.workExperience.skills.slice(0, 3).map((skill) => (
                                                                                 <Badge key={skill} variant="outline" className="text-xs">
                                                                                     {skill.replace('_', ' ')}
                                                                                 </Badge>
                                                                             ))}
-                                                                            {laborer.workExperience.skills.length > 3 && (
+                                                                            {labourer.workExperience.skills.length > 3 && (
                                                                                 <Badge variant="outline" className="text-xs">
-                                                                                    +{laborer.workExperience.skills.length - 3} more
+                                                                                    +{labourer.workExperience.skills.length - 3} more
                                                                                 </Badge>
                                                                             )}
                                                                         </div>
@@ -295,27 +295,27 @@ const JobMatches: React.FC = () => {
                                                                         </DialogTrigger>
                                                                         <DialogContent className="max-w-2xl">
                                                                             <DialogHeader>
-                                                                                <DialogTitle>{laborer.name}'s Profile</DialogTitle>
+                                                                                <DialogTitle>{labourer.name}'s Profile</DialogTitle>
                                                                             </DialogHeader>
                                                                             <div className="space-y-4">
                                                                                 <div className="grid grid-cols-2 gap-4">
                                                                                     <div>
                                                                                         <h4 className="font-medium mb-2">Contact</h4>
-                                                                                        <p className="text-sm text-muted-foreground">{laborer.phone}</p>
-                                                                                        <p className="text-sm text-muted-foreground">{laborer.email}</p>
+                                                                                        <p className="text-sm text-muted-foreground">{labourer.phone}</p>
+                                                                                        <p className="text-sm text-muted-foreground">{labourer.email}</p>
                                                                                     </div>
                                                                                     <div>
                                                                                         <h4 className="font-medium mb-2">Rating</h4>
                                                                                         <div className="flex items-center space-x-1">
                                                                                             <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                                                                                            <span className="text-sm">{laborer.rating} ({laborer.completedJobs} jobs)</span>
+                                                                                            <span className="text-sm">{labourer.rating} ({labourer.completedJobs} jobs)</span>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div>
                                                                                     <h4 className="font-medium mb-2">Skills</h4>
                                                                                     <div className="flex flex-wrap gap-1">
-                                                                                        {laborer.workExperience.skills.map((skill) => (
+                                                                                        {labourer.workExperience.skills.map((skill) => (
                                                                                             <Badge key={skill} variant="outline" className="text-xs">
                                                                                                 {skill.replace('_', ' ')}
                                                                                             </Badge>
@@ -325,7 +325,7 @@ const JobMatches: React.FC = () => {
                                                                                 <div>
                                                                                     <h4 className="font-medium mb-2">Experience</h4>
                                                                                     <p className="text-sm text-muted-foreground">
-                                                                                        {laborer.workExperience.totalYears} years in farming
+                                                                                        {labourer.workExperience.totalYears} years in farming
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
@@ -339,7 +339,7 @@ const JobMatches: React.FC = () => {
                                                                         </Button>
                                                                     ) : (
                                                                         <Button
-                                                                            onClick={() => handleConnect(laborer.id, selectedJob.id)}
+                                                                            onClick={() => handleConnect(labourer.id, selectedJob.id)}
                                                                             size="sm"
                                                                             className="bg-green-600 hover:bg-green-700"
                                                                         >
@@ -362,7 +362,7 @@ const JobMatches: React.FC = () => {
                                         <Briefcase className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                                         <h3 className="text-lg font-medium mb-2">Select a job to view matches</h3>
                                         <p className="text-muted-foreground">
-                                            Choose a job posting from the sidebar to see recommended laborers.
+                                            Choose a job posting from the sidebar to see recommended labourers.
                                         </p>
                                     </CardContent>
                                 </Card>
@@ -374,7 +374,7 @@ const JobMatches: React.FC = () => {
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-semibold">Recommended Jobs for You</h2>
-                            <Button onClick={() => navigate('/labor-marketplace')}>
+                            <Button onClick={() => navigate('/labour-marketplace')}>
                                 View All Jobs
                             </Button>
                         </div>
@@ -387,7 +387,7 @@ const JobMatches: React.FC = () => {
                                     <p className="text-muted-foreground">
                                         Complete your profile to get better job recommendations.
                                     </p>
-                                    <Button onClick={() => navigate('/laborer-profile')} className="mt-4">
+                                    <Button onClick={() => navigate('/labourer-profile')} className="mt-4">
                                         Update Profile
                                     </Button>
                                 </CardContent>

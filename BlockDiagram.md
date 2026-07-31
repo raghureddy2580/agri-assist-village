@@ -14,7 +14,7 @@
 │      Agri-Assist Platform           │
 ├─────────────────────────────────────┤
 │  ┌─────────┐ ┌─────────┐ ┌─────────┐ │
-│  │  Labor  │ │ Market- │ │  Crop   │ │
+│  │  Labour  │ │ Market- │ │  Crop   │ │
 │  │ Manage- │ │ place   │ │ Health  │ │
 │  │  ment   │ │         │ │ Monitor │ │
 │  └─────────┘ └─────────┘ └─────────┘ │

@@ -418,7 +418,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Weed Management',
                 description: 'Control weeds through manual and chemical methods',
                 duration: 'Multiple times',
-                requirements: ['Weedicides', 'Manual labor', 'Cono weeder'],
+                requirements: ['Weedicides', 'Manual labour', 'Cono weeder'],
                 tips: ['Early weed control crucial', 'Use recommended herbicides', 'Manual weeding at 20-25 DAT'],
                 warnings: ['Follow herbicide safety', 'Don\'t spray during windy conditions', 'Respect waiting periods']
             },
@@ -575,7 +575,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Harvesting',
                 description: 'Harvest at proper maturity stage',
                 duration: '7-10 days',
-                requirements: ['Harvester', 'Labor', 'Storage facility'],
+                requirements: ['Harvester', 'Labour', 'Storage facility'],
                 tips: ['Harvest at 12-14% moisture', 'Thresh immediately', 'Dry to safe moisture level'],
                 warnings: ['Avoid harvesting when wet', 'Prevent grain damage', 'Ensure proper drying']
             }
@@ -714,7 +714,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Weed Management',
                 description: 'Control weeds through manual and chemical methods',
                 duration: 'Multiple times',
-                requirements: ['Weedicides', 'Manual labor', 'Cono weeder'],
+                requirements: ['Weedicides', 'Manual labour', 'Cono weeder'],
                 tips: ['Early weed control crucial', 'Use recommended herbicides', 'Manual weeding at 20-25 DAS'],
                 warnings: ['Follow herbicide safety', 'Don\'t spray during windy conditions', 'Respect waiting periods']
             },
@@ -862,7 +862,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Earthing Up and Top Dressing',
                 description: 'Build up soil around plants and apply fertilizers',
                 duration: '3-4 months after planting',
-                requirements: ['Labor', 'Fertilizers'],
+                requirements: ['Labour', 'Fertilizers'],
                 tips: ['Earthing up at 3-4 months', 'Apply nitrogen fertilizers', 'Remove side shoots'],
                 warnings: ['Don\'t damage plants', 'Apply fertilizers carefully', 'Monitor for nutrient deficiencies']
             },
@@ -992,7 +992,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Thinning and Gap Filling',
                 description: 'Remove excess plants and fill gaps',
                 duration: '15-20 DAS',
-                requirements: ['Labor', 'Extra seedlings'],
+                requirements: ['Labour', 'Extra seedlings'],
                 tips: ['Maintain 30-45 cm plant spacing', 'Fill gaps within 15 days', 'Remove weak plants'],
                 warnings: ['Don\'t damage roots', 'Ensure proper spacing', 'Monitor for pests']
             },
@@ -1019,7 +1019,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Picking and Processing',
                 description: 'Harvest mature cotton bolls',
                 duration: '30-45 days',
-                requirements: ['Labor', 'Picking equipment'],
+                requirements: ['Labour', 'Picking equipment'],
                 tips: ['Pick when bolls are fully open', 'Multiple pickings required', 'Store in dry conditions'],
                 warnings: ['Avoid picking wet cotton', 'Prevent contamination', 'Ensure proper storage']
             }
@@ -1149,7 +1149,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Irrigation and Earthing Up',
                 description: 'Maintain moisture and earth up plants',
                 duration: 'Throughout season',
-                requirements: ['Irrigation system', 'Labor for earthing'],
+                requirements: ['Irrigation system', 'Labour for earthing'],
                 tips: ['First irrigation immediately after planting', 'Earth up at 30-40 DAS', 'Irrigate every 7-10 days'],
                 warnings: ['Avoid waterlogging', 'Don\'t earth up too early', 'Monitor for diseases']
             },
@@ -1167,7 +1167,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Harvesting and Storage',
                 description: 'Harvest mature tubers and store properly',
                 duration: '7-10 days',
-                requirements: ['Labor', 'Storage facility'],
+                requirements: ['Labour', 'Storage facility'],
                 tips: ['Harvest when haulms dry', 'Handle tubers gently', 'Cure tubers before storage'],
                 warnings: ['Avoid bruising tubers', 'Don\'t harvest when wet', 'Ensure proper curing']
             }
@@ -1315,7 +1315,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Harvesting and Curing',
                 description: 'Harvest mature bulbs and cure properly',
                 duration: '7-10 days',
-                requirements: ['Labor', 'Curing area'],
+                requirements: ['Labour', 'Curing area'],
                 tips: ['Harvest when 50% tops fall', 'Cure in shade for 7-10 days', 'Store in cool dry place'],
                 warnings: ['Don\'t harvest when wet', 'Avoid bruising bulbs', 'Ensure proper curing']
             }
@@ -1593,7 +1593,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Harvesting and Drying',
                 description: 'Harvest mature pods and dry properly',
                 duration: '7-10 days',
-                requirements: ['Labor', 'Drying yard'],
+                requirements: ['Labour', 'Drying yard'],
                 tips: ['Harvest when 70-80% pods mature', 'Dry pods to 8-10% moisture', 'Store in cool dry place'],
                 warnings: ['Don\'t harvest when wet', 'Avoid pod damage', 'Ensure proper drying']
             }
@@ -1889,7 +1889,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Harvesting and Drying',
                 description: 'Harvest mature fruits and dry properly',
                 duration: '15-20 days',
-                requirements: ['Labor', 'Drying racks'],
+                requirements: ['Labour', 'Drying racks'],
                 tips: ['Harvest when fruits are red/ripe', 'Dry in shade', 'Store in cool dry place'],
                 warnings: ['Don\'t harvest when wet', 'Avoid bruising fruits', 'Ensure proper drying']
             }
@@ -2037,7 +2037,7 @@ export const cropDatabase: CropInfo[] = [
                 title: 'Harvesting and Processing',
                 description: 'Harvest ripe cherries and process beans',
                 duration: '3-4 months',
-                requirements: ['Labor', 'Processing equipment'],
+                requirements: ['Labour', 'Processing equipment'],
                 tips: ['Harvest when cherries are red', 'Process within 24 hours', 'Dry beans to 12% moisture'],
                 warnings: ['Don\'t harvest overripe cherries', 'Avoid fermentation', 'Ensure proper drying']
             }

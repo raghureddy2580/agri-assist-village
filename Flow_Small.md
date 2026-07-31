@@ -13,7 +13,7 @@ Landing → Login → Dashboard → Features → Checkout → Confirmation
 5. List Produce
 6. Monitor Alerts
 
-### Laborer Flow:
+### Labourer Flow:
 1. Create Profile
 2. Browse Jobs
 3. Apply for Work
@@ -28,7 +28,7 @@ Landing → Login → Dashboard → Features → Checkout → Confirmation
 5. Track Delivery
 
 ## Key Features
-- Labor Management
+- Labour Management
 - Direct Marketplace
 - AI Plant Scanner
 - Weather Forecasts

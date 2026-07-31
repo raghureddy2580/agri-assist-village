@@ -16,7 +16,7 @@ import {
 const Footer = () => {
   const quickLinks = [
     { name: "Dashboard", href: "#dashboard" },
-    { name: "Labor Hiring", href: "#labor" },
+    { name: "Labour Hiring", href: "#labour" },
     { name: "Crop Management", href: "#crops" },
     { name: "Weather Forecast", href: "#weather" },
     { name: "Rover Monitoring", href: "/rover-monitoring" },

@@ -4,7 +4,7 @@
 
 ### ✅ Core Features Delivered
 - **User Authentication** - Secure login/signup system
-- **Labor Management** - Job posting and worker hiring platform
+- **Labour Management** - Job posting and worker hiring platform
 - **Marketplace System** - Direct farmer-to-buyer trading
 - **Plant Disease Scanner** - AI-powered crop health monitoring
 - **Weather Forecasting** - Real-time weather data and alerts
@@ -37,7 +37,7 @@
 
 ### 👨‍🌾 Primary Users
 - **Small & Medium Farmers** - Technology access for better yields
-- **Agricultural Laborers** - Job opportunities and fair wages
+- **Agricultural Labourers** - Job opportunities and fair wages
 - **Produce Buyers** - Direct access to fresh farm products
 
 ### 📍 Geographic Scope
@@ -58,7 +58,7 @@
 
 ### 🌍 Social Impact
 - **Empower Small Farmers** - Technology democratization
-- **Job Creation** - Labor market efficiency
+- **Job Creation** - Labour market efficiency
 - **Sustainable Farming** - Better environmental practices
 
 ## Technical Scalability Scope
@@ -77,7 +77,7 @@
 ## Success Metrics
 
 ### 📈 Key Performance Indicators
-- **User Adoption** - Number of registered farmers/laborers
+- **User Adoption** - Number of registered farmers/labourers
 - **Transaction Volume** - Marketplace trade value
 - **Disease Detection Rate** - AI accuracy improvements
 - **User Satisfaction** - Platform usability ratings
