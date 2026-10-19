@@ -387,6 +387,7 @@ export default function RoverMonitor() {
   const [pose, setPose] = useState({ x: 0, y: 0, heading: 0 });
   const [trail, setTrail] = useState([{ x: 0, y: 0 }]);
   const heldRef = useRef({ fwd: false, rev: false, left: false, right: false });
+  const lastDemoPlantAtRef = useRef(0);
   const [activeCmd, setActiveCmd] = useState(null);
   const runningRef = useRef(false);
   const [running, setRunning] = useState(false);
@@ -501,6 +502,15 @@ export default function RoverMonitor() {
       setPose({ x, y, heading });
       if (held.fwd || held.rev) {
         setTrail((t) => [...t.slice(-80), { x, y }]);
+        const now = Date.now();
+        if (now - lastDemoPlantAtRef.current >= 1400) {
+          lastDemoPlantAtRef.current = now;
+          window.dispatchEvent(
+            new CustomEvent("rover-demo-plant", {
+              detail: { x, y, direction: held.fwd ? "forward" : "reverse" },
+            }),
+          );
+        }
       }
     }, TICK_MS);
     return () => clearInterval(id);

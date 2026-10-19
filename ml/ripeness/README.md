@@ -12,7 +12,7 @@ After installing dependencies below, download/arrange the dataset from the publi
 python ml/ripeness/download_dataset.py
 ```
 
-The dataset files total about 390 MB before the viewer converts them to individual image files. The script keeps the source training and test splits separate, downloads images in parallel with retries, supports resuming an interrupted download, and maps labels into the trainer format:
+The dataset files total about 390 MB before the viewer converts them to individual image files. The script keeps the source training and test splits separate, downloads images in parallel with retries, resumes interrupted downloads by skipping files already present, and maps labels into the trainer format. Use `--overwrite` to download the splits again from scratch:
 
 ```text
 ml/ripeness/dataset/
@@ -31,6 +31,7 @@ ml/ripeness/dataset/
 You may instead provide your own labeled images using the same four (or additional matched crop/ripeness) class names. Each crop must have both ripe and unripe classes; each training class needs at least five images.
 
 The downloaded images and trained weights are ignored by Git because they are large.
+The virtual rover preview uses original illustrated whole-plant field scenes from `public/demo-plants/`; example ripeness labels are demonstrations, not model predictions.
 
 ## Train
 
@@ -57,10 +58,12 @@ Options include `--epochs`, `--fine-tune-epochs`, `--batch-size`, `--validation-
 
 ## Run the inference API
 
-After training:
+After completing the Train steps above, start the API in a second terminal with the same Python environment activated:
 
 ```powershell
-python -m uvicorn ml.ripeness.api:app --host 127.0.0.1 --port 8000
+npm run ripeness:api
 ```
 
-The dashboard calls `GET /health` and uploads photos to `POST /predict`. If the model isn't trained or the API can't be reached, predictions remain unavailable and the dashboard reports that explicitly; farmer-confirmed records still work. Set `VITE_RIPENESS_API_URL` if the API is hosted at a different address. Set `RIPENESS_ALLOWED_ORIGINS` to a comma-separated list of trusted dashboard origins when deploying; the default only allows local development origins.
+The dashboard calls `GET /health` and sends photos or sampled video frames to `POST /predict`. Videos are sampled at up to three points and their crop/ripeness predictions are combined by majority vote. The API address can be set in the dashboard and is saved in that browser; a deployed dashboard must use the public HTTPS URL of a separately deployed model API, not `localhost`. Set `VITE_RIPENESS_API_URL` to provide a default address at build time. Set `RIPENESS_ALLOWED_ORIGINS` on the API service to a comma-separated list of trusted dashboard origins; the default only allows local development origins. If the model isn't trained or the API can't be reached, the dashboard now reports the cause; farmer-confirmed records still work.
+
+For a separately hosted API, start Uvicorn with `--host 0.0.0.0 --port <service-port>` and configure `RIPENESS_ALLOWED_ORIGINS` with the exact deployed dashboard origin. The model artifact and `labels.json` must also be present on that API host.

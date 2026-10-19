@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#d5ecc8"/>
+      <stop offset="1" stop-color="#a4ce83"/>
+    </linearGradient>
+    <linearGradient id="leaf" x2="0" y2="1">
+      <stop stop-color="#78b44e"/>
+      <stop offset="1" stop-color="#286542"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="205" fill="url(#sky)"/>
+  <path d="M0 160Q120 130 240 163t240-5v52H0Z" fill="#6a9d4b"/>
+  <rect y="210" width="480" height="90" fill="#755238"/>
+  <path d="M0 246q120-28 240 0t240 0M0 281q120-28 240 0t240 0" fill="none" stroke="#a47b48" stroke-width="4"/>
+  <path d="M240 218q-4-44-2-91" fill="none" stroke="#6d9b47" stroke-width="19" stroke-linecap="round"/>
+  <g fill="url(#leaf)" stroke="#367548" stroke-width="2">
+    <path d="M238 140Q171 36 72 49q79 16 166 101Z"/>
+    <path d="M240 133Q200 14 143 9q44 41 97 127Z"/>
+    <path d="M241 132Q265 19 333 8q-52 44-89 129Z"/>
+    <path d="M242 137Q338 40 426 57q-90 7-181 91Z"/>
+    <path d="M238 145Q139 78 44 99q95-2 194 65Z"/>
+    <path d="M242 144Q337 80 449 103q-102-1-204 59Z"/>
+  </g>
+  <g fill="none" stroke="#acd477" stroke-width="2" opacity=".65">
+    <path d="M238 140 91 53m149 81L151 15m90 120L328 15m-86 127L415 61M238 145 54 101m190 41 200-37"/>
+  </g>
+  <g fill="none" stroke="#e6c64e" stroke-width="10" stroke-linecap="round">
+    <path d="M184 153q-17 21 3 35"/>
+    <path d="M205 157q-17 23 4 38"/>
+    <path d="M226 160q-15 23 7 39"/>
+    <path d="M247 160q-14 24 8 39"/>
+    <path d="M268 157q-13 23 9 37"/>
+    <path d="M289 153q-11 21 9 34"/>
+  </g>
+  <path d="M0 210h480" stroke="#ddbd85" stroke-width="3" opacity=".8"/>
+</svg>

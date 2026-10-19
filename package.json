@@ -8,6 +8,7 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
+    "ripeness:api": "python -m uvicorn ml.ripeness.api:app --host 127.0.0.1 --port 8000",
     "preview": "vite preview",
     "test": "vitest"
   },

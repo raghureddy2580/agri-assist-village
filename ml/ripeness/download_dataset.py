@@ -61,18 +61,12 @@ def download_image(url: str, image_path: Path) -> None:
 
 def download_split(split: str, output_dir: Path, overwrite: bool) -> int:
     split_dir = output_dir / split
-    if split_dir.exists():
-        existing_images = list(split_dir.glob("*/*"))
-        if existing_images and not overwrite:
-            raise FileExistsError(
-                f"{split_dir} already contains files. Use --overwrite to replace them."
-            )
-        if overwrite:
-            for class_dir in split_dir.iterdir():
-                if class_dir.is_dir():
-                    for image_path in class_dir.iterdir():
-                        if image_path.is_file():
-                            image_path.unlink()
+    if overwrite and split_dir.exists():
+        for class_dir in split_dir.iterdir():
+            if class_dir.is_dir():
+                for image_path in class_dir.iterdir():
+                    if image_path.is_file():
+                        image_path.unlink()
 
     split_dir.mkdir(parents=True, exist_ok=True)
     first_page = fetch_rows(split, 0)
